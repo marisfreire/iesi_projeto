@@ -6,17 +6,17 @@ import AcompanhamentoEstudante from "./pages/AcompanhamentoEstudante";
 import Pacientes from "./pages/Pacientes";
 import Prontuarios from "./pages/Prontuarios";
 import Prontuario from "./pages/Prontuario";
+import AcompanhamentoDocente from "./pages/AcompanhamentoDocente";
+import DetalhesAluno from "./pages/DetalhesAluno";
 
 function App() {
   return (
     <Router>
       <Routes>
-  <Route path="/" element={<Login />} />
-  <Route path="/discente" element={<HomeDiscente />} />
-  <Route path="/acompanhamento-estudante" element={<AcompanhamentoEstudante />} />
-  <Route path="/pacientes" element={<Pacientes />} />
-  <Route path="/prontuarios" element={<Prontuarios />} />
-  <Route path="/prontuario/:id" element={<Prontuario />} />
+        {/* Rota principal renderizando AcompanhamentoDocente */}
+        <Route path="/" element={<AcompanhamentoDocente />} />
+        <Route path="/aluno/:id" element={<DetalhesAluno />} /> 
+        
         {/* Fallback para rotas desconhecidas */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -1,0 +1,106 @@
+/* DetalhesAluno.css */
+.detalhes-aluno-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .aluno-header {
+    background-color: #0044cc;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+  }
+  
+  .aluno-header h1 {
+    margin: 0;
+    font-size: 28px;
+  }
+  
+  .aluno-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+  }
+  
+  .aluno-info p {
+    margin: 5px 0;
+  }
+  
+  .pacientes-section {
+    margin-bottom: 30px;
+  }
+  
+  .pacientes-section h2 {
+    color: #333;
+    border-bottom: 2px solid #0044cc;
+    padding-bottom: 10px;
+  }
+  
+  .pacientes-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .paciente-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.2s;
+  }
+  
+  .paciente-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .paciente-card h3 {
+    color: #0044cc;
+    margin-top: 0;
+  }
+  
+  .paciente-card p {
+    margin: 8px 0;
+  }
+  
+  .ver-prontuario-btn, .voltar-btn {
+    background-color: #0044cc;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+  }
+  
+  .ver-prontuario-btn:hover, .voltar-btn:hover {
+    background-color: #003399;
+  }
+  
+  .sem-pacientes {
+    font-style: italic;
+    color: #666;
+  }
+  
+  .aluno-nao-encontrado {
+    text-align: center;
+    padding: 50px;
+  }
+  
+  @media (max-width: 768px) {
+    .aluno-info {
+      grid-template-columns: 1fr;
+    }
+    
+    .pacientes-list {
+      grid-template-columns: 1fr;
+    }
+  }
