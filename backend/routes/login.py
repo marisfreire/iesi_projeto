@@ -7,7 +7,7 @@ login_bp = Blueprint('login', __name__)
 def login():
     data = request.get_json()
 
-    print("🔧 Dados recebidos na rota /login:", data)
+    print("Dados recebidos na rota /login:", data)
 
     username = data.get('username')
     senha = data.get('senha')

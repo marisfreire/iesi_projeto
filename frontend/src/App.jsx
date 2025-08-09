@@ -6,12 +6,14 @@ import AcompanhamentoEstudante from "./pages/AcompanhamentoEstudante";
 import Pacientes from "./pages/Pacientes";
 import Prontuarios from "./pages/Prontuarios";
 import Prontuario from "./pages/Prontuario";
+import Agendamento from "./components/AgendamentoForm";
 
 function App() {
   return (
     <Router>
       <Routes>
   <Route path="/" element={<Login />} />
+  <Route path="/agendamento" element={<Agendamento />} />
   <Route path="/discente" element={<HomeDiscente />} />
   <Route path="/acompanhamento-estudante" element={<AcompanhamentoEstudante />} />
   <Route path="/pacientes" element={<Pacientes />} />
