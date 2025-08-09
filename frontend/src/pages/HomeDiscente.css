@@ -1,0 +1,211 @@
+:root {
+  --primary: #12b0a1;
+  --primary-dark: #0f9588;
+  --bg: #f6f8fb;
+  --card: #ffffff;
+  --text: #243242;
+  --muted: #667085;
+  --border: #e5e7eb;
+}
+
+/* Container geral */
+.home-discente-container {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  color: var(--text);
+}
+
+/* Banner de boas-vindas (similar à faixa/hero do print) */
+.home-discente-header {
+  width: 100%;
+  max-width: 1200px;
+  background: linear-gradient(135deg, var(--primary), #1ec9b6);
+  color: #fff;
+  border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 10px 24px rgba(18, 176, 161, 0.18);
+}
+
+.home-discente-header h1 {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  font-size: clamp(20px, 2.2vw, 28px);
+}
+
+/* Card principal com conteúdo */
+.home-discente-main {
+  width: 100%;
+  max-width: 1200px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 6px 20px rgba(2, 8, 20, 0.06);
+}
+
+.home-discente-subtitle {
+  color: var(--muted);
+  font-size: 15px;
+  margin: 0 0 16px;
+}
+
+/* Grid de ações (como cartões clicáveis) */
+.home-discente-buttons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .home-discente-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Botões em estilo "card" */
+.discente-button {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 12px rgba(2, 8, 20, 0.05);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease,
+    color 0.2s ease, background 0.2s ease;
+}
+
+/* Ícone/pílula decorativa para remeter aos cards do print */
+.discente-button::before {
+  content: "";
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary), #1ec9b6);
+  box-shadow: 0 4px 10px rgba(18, 176, 161, 0.25);
+}
+
+.discente-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(2, 8, 20, 0.12);
+  border-color: rgba(18, 176, 161, 0.5);
+  color: var(--primary-dark);
+}
+
+.discente-button:active {
+  transform: translateY(0);
+}
+
+.discente-button:focus-visible {
+  outline: 3px solid rgba(18, 176, 161, 0.35);
+  outline-offset: 2px;
+}
+
+/* Welcome card (banner suave verde) */
+.welcome-card {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  background: rgba(23, 175, 149, 0.12); /* #dcefed aproximado */
+  border-radius: 16px;
+  padding: 16px 20px;
+  border: 1px solid rgba(23, 175, 149, 0.35);
+}
+
+.welcome-logo {
+  width: 120px;
+  height: 60px;
+  object-fit: contain;
+  margin-right: 20px;
+}
+
+.welcome-texts {
+  padding: 8px 0;
+}
+
+.welcome-title {
+  font-family: 'Roboto', 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0 0 4px 0;
+  color: #17af95;
+}
+
+.welcome-description {
+  margin: 0;
+  color: #6b7280; /* cinza */
+}
+
+.welcome-description .accent {
+  color: #17af95;
+  font-weight: 700;
+}
+
+/* Cards de ação com título e subtítulo */
+.action-card {
+  border: 1px solid #17af95;
+}
+
+.action-card::before {
+  content: none !important;
+  display: none !important;
+}
+
+.action-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(23, 175, 149, 0.15);
+  display: inline-block;
+}
+
+.action-texts {
+  display: flex;
+  flex-direction: column;
+}
+
+.text-module {
+  font-size: 14px;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.text-page {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.action-card:hover .text-module {
+  color: #0f9588;
+}
+
+.action-card:hover .action-icon {
+  background: rgba(23, 175, 149, 0.22);
+}
+
+.action-card {
+  min-height: 86px;
+}
+
+.action-texts .text-module {
+  line-height: 1.1;
+}
+
+.action-texts .text-page {
+  line-height: 1.1;
+}
