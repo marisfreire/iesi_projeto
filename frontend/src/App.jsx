@@ -7,6 +7,7 @@ import Pacientes from "./pages/Pacientes";
 import Prontuarios from "./pages/Prontuarios";
 import Prontuario from "./pages/Prontuario";
 import Agendamento from "./components/AgendamentoForm";
+import Calendario from "./pages/Calendario"
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
   <Route path="/pacientes" element={<Pacientes />} />
   <Route path="/prontuarios" element={<Prontuarios />} />
   <Route path="/prontuario/:id" element={<Prontuario />} />
+   <Route path="/calendario" element={<Calendario />} />
         {/* Fallback para rotas desconhecidas */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
