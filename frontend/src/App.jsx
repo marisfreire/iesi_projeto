@@ -8,6 +8,8 @@ import Pacientes from "./pages/Pacientes";
 import Prontuarios from "./pages/Prontuarios";
 import Prontuario from "./pages/Prontuario";
 import Agendamento from "./components/AgendamentoForm";
+import AcompanhamentoDocente from "./pages/AcompanhamentoDocente";
+import DetalhesAluno from "./pages/DetalheAluno";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
   <Route path="/discente" element={<HomeDiscente />} />
   <Route path="/docente" element={<HomeDocentePage />} />
   <Route path="/acompanhamento-estudante" element={<AcompanhamentoEstudante />} />
+  <Route path="/acompanhamento-docente/" element={<AcompanhamentoDocente />} />
+  <Route path="/aluno/:id" element={<DetalhesAluno />} />
   <Route path="/pacientes" element={<Pacientes />} />
   <Route path="/prontuarios" element={<Prontuarios />} />
   <Route path="/prontuario/:id" element={<Prontuario />} />

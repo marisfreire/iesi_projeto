@@ -1,7 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./HomeDocente.css";
 
 export default function HomeDocente() {
+  const navigate = useNavigate();
+
+  const handleAcompanhamentoClick = () => {
+    navigate("/acompanhamento-docente");
+  };
+
   return (
     <div className="home-page-container">
       <div className="header-background">
@@ -34,13 +41,17 @@ export default function HomeDocente() {
           <h3 className="card-title">Pacientes</h3>
           <p className="card-description">Acesse informações e histórico de todos os seus pacientes.</p>
         </div>
-        <div className="card">
+        {/* Card de Acompanhamento como botão clicável */}
+        <button 
+          className="card card-button" 
+          onClick={handleAcompanhamentoClick}
+        >
           <div className="card-icon">
             <img src="/icons/student.png" alt="Ícone de Acompanhamento" />
           </div>
           <h3 className="card-title">Acompanhamento</h3>
           <p className="card-description">Monitore o progresso e desenvolvimento dos estudantes na clínica.</p>
-        </div>
+        </button>
       </div>
     </div>
   );
