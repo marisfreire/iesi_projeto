@@ -1,15 +1,9 @@
 import axios from "axios";
 
-const handleLogin = async () => {
-  try {
-    const response = await axios.post("http://localhost:5000/login", {
-      username,
-      senha: password,
-    });
+// Cliente axios básico para chamadas à API do backend
+const api = axios.create({
+  baseURL: "http://localhost:5000",
+});
 
-    console.log("resposta backend:", response.data);
-  } catch (error) {
-    console.error("erro no login:", error);
-  }
-};
+export default api;
 

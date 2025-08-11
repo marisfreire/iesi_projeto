@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 
 export default function LoginForm() {
   const [userType, setUserType] = useState("discente");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -23,6 +25,21 @@ export default function LoginForm() {
       console.log("Resposta do backend:", data);
 
       if (response.ok) {
+        // Extrai o nome do usuário a partir do retorno da API
+        const apiName = data.user.name;
+        // Persistir identificadores do usuário
+        if (username) localStorage.setItem("username", username);
+        if (apiName) localStorage.setItem("displayName", apiName);
+        // Caso o tipo selecionado seja 'discente', navega para a Home do Discente
+        if (userType === "discente") {
+          navigate("/discente");
+          return;
+        }
+        // Caso o tipo selecionado seja 'docente', navega para a Home do Docente
+        if (userType === "docente") {
+          navigate("/docente");
+          return;
+        }
         alert("Login OK!");
       } else {
         alert(data.error || "erro login");
