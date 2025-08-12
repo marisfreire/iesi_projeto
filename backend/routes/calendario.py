@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify
 import requests
+from requests.auth import HTTPBasicAuth
 
 calendario_bp = Blueprint("calendario", __name__)
 
@@ -12,10 +13,18 @@ PARAMS = {
     "namePatient": ""
 }
 
+USUARIO = "71484688414" 
+SENHA = "Senhabonita123*"    
+
 @calendario_bp.route("/calendario", methods=["GET"])
 def get_calendario():
     try:
-        r = requests.get(API_URL, params=PARAMS, timeout=10)
+        r = requests.get(
+            API_URL,
+            params=PARAMS,
+            auth=HTTPBasicAuth(USUARIO, SENHA),
+            timeout=10
+        )
         r.raise_for_status()
         dados = r.json()
         return jsonify(dados)

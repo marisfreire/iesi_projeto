@@ -35,8 +35,11 @@ export default function LoginForm() {
           navigate("/discente");
           return;
         }
-        // Você pode complementar aqui com outras rotas por tipo de usuário
-        // Ex.: if (userType === 'docente') navigate('/docente');
+        // Caso o tipo selecionado seja 'docente', navega para a Home do Docente
+        if (userType === "docente") {
+          navigate("/docente");
+          return;
+        }
         alert("Login OK!");
       } else {
         alert(data.error || "erro login");

@@ -1,0 +1,149 @@
+/* DetalhesAluno.css */
+.detalhes-aluno-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    min-height: 100vh;
+  }
+  
+  .aluno-header {
+    background: linear-gradient(to right, #e0f7fa, #b2ebf2);
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .aluno-header h1 {
+    color: #00b2a9;
+    margin: 0 0 15px 0;
+    font-size: 2rem;
+  }
+  
+  .aluno-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  
+  .aluno-info-grid p {
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  .pacientes-section {
+    margin-bottom: 30px;
+  }
+  
+  .pacientes-section h2 {
+    color: #00b2a9;
+    border-bottom: 2px solid #b2ebf2;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .pacientes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .paciente-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .paciente-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .paciente-card h3 {
+    color: #00b2a9;
+    margin-top: 0;
+  }
+  
+  .paciente-info p {
+    margin: 8px 0;
+    color: #555;
+    line-height: 1.4;
+  }
+  
+  .ver-prontuario-btn {
+    background-color: #00b2a9;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .ver-prontuario-btn:hover {
+    background-color: #00897b;
+  }
+  
+  .button-voltar {
+    background-color: #00b2a9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+  }
+  
+  .button-voltar:hover {
+    background-color: #00897b;
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    margin-left: 8px;
+  }
+  
+  .status-em-acompanhamento {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+  
+  .status-concluído {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .sem-pacientes {
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .aluno-nao-encontrado {
+    text-align: center;
+    padding: 40px;
+  }
+  
+  @media (max-width: 768px) {
+    .aluno-info-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .pacientes-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .aluno-header {
+      padding: 20px;
+    }
+  }

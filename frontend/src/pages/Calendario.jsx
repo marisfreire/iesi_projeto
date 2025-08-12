@@ -5,31 +5,13 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 export default function Calendario() {
   const localizer = momentLocalizer(moment);
-
   const [consultas, setConsultas] = useState([]);
 
   useEffect(() => {
-    //não estou conseguindo receber as informacoes da api 
-    //fica dando erro 401 "não autorizado"
-    //vou deixar mockado e depois olhamos isso melhor  
-    const dadosAPI = [
-      {
-        idPatient: 87256,
-        name: "PACIENTE TESTE DOC API",
-        schedule: [
-          {
-            id: "",
-            idScheduleReturn: null,
-            dateSchedule: "04/08/2025",
-            local: 680,
-            idCalendar: 880,
-            procedures: [2623],
-            hour: "08:00:00"
-          }
-        ]
-      }
-    ];
-    setConsultas(dadosAPI);
+    fetch("http://localhost:5000/calendario")
+      .then((res) => res.json())
+      .then((dados) => setConsultas(dados))
+      .catch((err) => console.error("Erro ao buscar agendamentos:", err));
   }, []);
 
   const eventos = consultas.flatMap((consulta) =>
