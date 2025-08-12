@@ -1,18 +1,19 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import './DetalheAluno.css'; // Arquivo de estilos que vamos criar
-
-// Mock dos dados (deve ser o mesmo usado no AcompanhamentoDocente)
-import { mockAlunos } from './AcompanhamentoDocente';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import './DetalheAluno.css';
 
 function DetalhesAluno() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { state } = useLocation();
   
-  // Encontra o aluno pelo ID
-  const aluno = mockAlunos.find(aluno => aluno.id === id);
-  
+  // Recebe apenas o aluno completo do estado de navegação
+  const aluno = state?.aluno;
+
+  console.log('Dados recebidos:', { id, aluno });
+
   if (!aluno) {
+    console.log('Nenhum dado de aluno recebido via navegação');
     return (
       <div className="aluno-nao-encontrado">
         <h2>Aluno não encontrado</h2>
@@ -26,9 +27,15 @@ function DetalhesAluno() {
     );
   }
 
+  // Verifica se há pacientes associados
+  const temPacientes = aluno.paciente && Object.keys(aluno.paciente).length > 0;
+  
+  if (!temPacientes) {
+    console.log(`Aluno ${aluno.nome} não possui pacientes associados`);
+  }
+
   return (
     <div className="detalhes-aluno-container">
-      {/* Cabeçalho com dados do aluno */}
       <header className="aluno-header">
         <h1>{aluno.nome}</h1>
         <div className="aluno-info-grid">
@@ -43,30 +50,31 @@ function DetalhesAluno() {
         </div>
       </header>
 
-      {/* Seção de pacientes */}
       <section className="pacientes-section">
-        <h2>Pacientes em Acompanhamento</h2>
+        <h2>Paciente em Acompanhamento</h2>
         
-        {aluno.pacientes.length > 0 ? (
+        {temPacientes ? (
           <div className="pacientes-grid">
-            {aluno.pacientes.map(paciente => (
-              <div key={paciente.id} className="paciente-card">
-                <h3>{paciente.nome}</h3>
-                <div className="paciente-info">
-                  <p><strong>Idade:</strong> {paciente.idade} anos</p>
-                  <p><strong>Diagnóstico:</strong> {paciente.diagnostico}</p>
-                  <p><strong>Última consulta:</strong> {paciente.ultimaConsulta}</p>
-                  <p><strong>Próxima consulta:</strong> {paciente.proximaConsulta}</p>
-                  <p><strong>Observações:</strong> {paciente.observacoes}</p>
-                </div>
-                <button 
-                  className="ver-prontuario-btn"
-                  onClick={() => navigate(`/prontuario/${paciente.id}`)}
-                >
-                  Ver Prontuário Completo
-                </button>
-              </div>
-            ))}
+            <div 
+              key={aluno.paciente.id} 
+              className="paciente-card"
+              onClick={() => navigate(`/infopaciente/${aluno.paciente.id}`, { 
+                state: { paciente: aluno.paciente } 
+              })}
+            >
+              <h3>{aluno.paciente.nome}</h3>
+              <button 
+                className="ver-prontuario-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/infopaciente/${aluno.paciente.id}`, {
+                    state: { paciente: aluno.paciente }
+                  });
+                }}
+              >
+                Ver Prontuário
+              </button>
+            </div>
           </div>
         ) : (
           <p className="sem-pacientes">Nenhum paciente em acompanhamento</p>
