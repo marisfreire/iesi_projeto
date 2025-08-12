@@ -1,0 +1,76 @@
+"GET": {{base_url}}/api/ehr/tabs?id={{IdPacientente}}&onlyTab=0
+
+[
+    {
+        "client": 4324,
+        "id": 35863,
+        "name": "Fichas",
+        "icon": "assignment",
+        "tab": "fichas",
+        "type": "ehr",
+        "countDocuments": 1
+    },
+    {
+        "client": 4324,
+        "id": 35864,
+        "name": "Receituário",
+        "icon": "edit",
+        "tab": "receituario",
+        "type": "ehr",
+        "countDocuments": 0
+    },
+    {
+        "client": 4324,
+        "id": 35865,
+        "name": "Exames",
+        "icon": "insert_chart_outlined",
+        "tab": "exames",
+        "type": "ehr",
+        "countDocuments": 0
+    },
+    {
+        "client": 4324,
+        "id": 35866,
+        "name": "Atestados e Declarações",
+        "icon": "fact_check",
+        "tab": "atestados",
+        "type": "ehr",
+        "countDocuments": 0
+    },
+    {
+        "client": 4324,
+        "id": 35867,
+        "name": "Orientações",
+        "icon": "content_paste",
+        "tab": "orientacoes",
+        "type": "ehr",
+        "countDocuments": 0
+    },
+    {
+        "client": 4324,
+        "id": 35868,
+        "name": "Laudos e Pareceres",
+        "icon": "post_add",
+        "tab": "pareceres",
+        "type": "ehr",
+        "countDocuments": 0
+    },
+    {
+        "client": 4324,
+        "id": 35869,
+        "name": "Visitas Clínicas",
+        "icon": "apartment",
+        "tab": "visitasclinicas",
+        "type": "ehr",
+        "countDocuments": 0
+    },
+    {
+        "client": 4324,
+        "id": 996,
+        "name": "budgetsAndRequests",
+        "icon": "shopping_cart",
+        "tab": "orcamentos",
+        "type": "ehr",
+        "countDocuments": 0
+    }
+]

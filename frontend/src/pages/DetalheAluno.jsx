@@ -1,9 +1,8 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import './DetalheAluno.css'; // Arquivo de estilos que vamos criar
-
-// Mock dos dados (deve ser o mesmo usado no AcompanhamentoDocente)
-import { mockAlunos } from './AcompanhamentoDocente';
+import './DetalheAluno.css'; // Arquivo de estilos
+// Mock compartilhado
+import { mockAlunos } from '../data/alunos';
 
 function DetalhesAluno() {
   const { id } = useParams();
@@ -61,7 +60,7 @@ function DetalhesAluno() {
                 </div>
                 <button 
                   className="ver-prontuario-btn"
-                  onClick={() => navigate(`/prontuario/${paciente.id}`)}
+                  onClick={() => navigate(`/prontuario/${paciente.id}?tab=informacoes`)}
                 >
                   Ver Prontuário Completo
                 </button>

@@ -1,0 +1,123 @@
+.prontuario-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f0f8ff;
+  min-height: 100vh;
+}
+
+.prontuario-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(to right, #e0f7fa, #b2ebf2);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.prontuario-title {
+  margin: 0;
+  color: #00b2a9;
+}
+
+.btn-primary {
+  background-color: #00b2a9;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-primary:hover { background-color: #00897b; }
+
+.tabs-container {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.tab-button {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tab-button.active {
+  border: 2px solid #2563eb;
+  background: #eff6ff;
+}
+.tab-badge {
+  font-size: 12px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  padding: 0 6px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.muted { color: #555; }
+
+/* Campos de formulário em largura total */
+.form-field { margin-top: 12px; }
+.form-label { display: block; font-weight: 600; margin-bottom: 6px; color: #333; }
+.form-input, .form-textarea {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+  background: #fff;
+}
+.form-input:read-only, .form-textarea:read-only { background: #f9fafb; }
+.form-textarea { min-height: 160px; resize: vertical; }
+
+/* Área de conteúdo das abas: aumenta a largura do card mantendo responsividade */
+.content-area { margin-top: 16px; display: flex; }
+.content-area .card {
+  width: min(100%, 960px);
+}
+.card h3, .card p, .info-grid p { text-align: left; }
+
+/* Layout em duas colunas */
+.prontuario-layout { display: grid; grid-template-columns: 300px 1fr; gap: 16px; }
+.patient-card { align-self: start; }
+.prontuario-main { min-width: 0; }
+
+/* Acordeão */
+.accordion { margin-top: 16px; }
+.acc-item { border-radius: 8px; overflow: hidden; margin-bottom: 10px; border: 1px solid #e5e7eb; background: #fff; }
+.acc-header { width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border: none; background: #f8fafc; cursor: pointer; }
+.acc-header.open { background: #eef2ff; }
+.acc-title { font-weight: 600; color: #374151; }
+.acc-right { display: flex; align-items: center; gap: 8px; }
+.acc-count { background: #00b2a9; color: #fff; border-radius: 10px; padding: 0 8px; font-size: 12px; }
+.acc-toggle { color: #6b7280; }
+.acc-content { background: #f9fafb; padding: 10px 12px; }
+
+@media (max-width: 900px) {
+  .prontuario-layout { grid-template-columns: 1fr; }
+}
