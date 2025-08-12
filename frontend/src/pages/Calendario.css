@@ -1,0 +1,26 @@
+.rbc-event {
+  background-color: #a0c4ff !important;
+  border: none !important;
+  color: black !important;
+  font-weight: 500;
+  padding: 2px 4px;
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+.rbc-event.rbc-selected {
+  background-color: #82aaff !important;
+}
+
+.rbc-event:hover {
+  background-color: #82aaff !important;
+  cursor: pointer;
+}
+
+.rbc-today {
+  background-color: #fffbe6 !important;
+}
+
+.rbc-time-slot, .rbc-day-bg {
+  background-color: white !important;
+}

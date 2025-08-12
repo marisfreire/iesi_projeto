@@ -1,21 +1,35 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import "./Calendario.css"; // Mudar coisas específicas do calendário
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
+import "moment/locale/pt-br";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 export default function Calendario() {
+  const navigate = useNavigate();
+  moment.locale("pt-br");
   const localizer = momentLocalizer(moment);
   const [consultas, setConsultas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [view, setView] = useState("month");
+  const [date, setDate] = useState(new Date());
+  const location = useLocation();
 
   useEffect(() => {
+    setLoading(true);
     fetch("http://localhost:5000/calendario?data=2025-08-01&idCalendar=236")
       .then((res) => res.json())
       .then((dados)=> {
         console.log("Dados recebidos do backend:", dados);
         setConsultas(dados);
+        setLoading(false);
       })
-      .catch((err) => console.error("Erro ao buscar agendamentos:", err));
-  }, []);
+      .catch((err) => {
+        console.error("Erro ao buscar agendamentos:", err);
+        setLoading(false);
+      });
+  }, [location]);
 
   const eventos = Array.isArray(consultas)
   ? consultas.flatMap((consulta) =>
@@ -53,35 +67,79 @@ export default function Calendario() {
     return {};
   };
 
-  const eventPropGetter = (event, start, end, isSelected) => {
+  const eventPropGetter = () => {
     return {
-      style: {
-        backgroundColor: "#f8d7da",
-        color: "#000",
-        fontSize: "0.75rem",
-        padding: "2px 4px",
-        borderRadius: "4px",
-        border: "none",
-        overflow: "hidden",
-        whiteSpace: "nowrap",
-        textOverflow: "ellipsis",
-      }
+      className: "custom-event-card"
     };
   };
 
   return (
-    <div style={{ height: "80vh" }}>
-      <Calendar
-        localizer={localizer}
-        events={eventos}
-        defaultView="month"
-        views={["month", "week", "day"]}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: "100%" }}
-        dayPropGetter={dayPropGetter}
-        eventPropGetter={eventPropGetter}
-      />
+    <div style={{ height: "80vh", fontFamily: 'Arial'}}>
+      <button
+        style={{
+          marginBottom: "16px",
+          padding: "10px 20px",
+          background: "#82aaff",
+          color: "#000000",
+          borderRadius: "6px",
+          cursor: "pointer"
+        }}
+        onClick={() => navigate("/agendamento")}
+      >
+        Novo Agendamento
+      </button>
+
+      <div style={{position: 'relative', height: '100%'}}>
+        {loading && (
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'rgba(255,255,255,0.7)',
+            zIndex: 10,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '1.2rem',
+            color: '#3973b7',
+            fontWeight: 'bold'
+          }}>
+            Atualizando dados...
+          </div>
+        )}
+        <Calendar
+          localizer={localizer}
+          events={eventos}
+          view={view}
+          onView={setView}
+          date={date}
+          onNavigate={setDate}
+          defaultView="month"
+          views={["month", "week", "day"]}
+          toolbar={true}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ height: "100%" }}
+          dayPropGetter={dayPropGetter}
+          eventPropGetter={eventPropGetter}
+          messages={{
+            today: "Hoje",
+            previous: "Voltar",
+            next: "Avançar",
+            month: "Mês",
+            week: "Semana",
+            day: "Dia",
+            agenda: "Agenda",
+            date: "Data",
+            time: "Hora",
+            event: "Evento",
+            noEventsInRange: "Não há eventos neste período.",
+            showMore: (total) => `+ Ver mais (${total})`,
+          }}
+        />
+      </div>
     </div>
   );
 }
