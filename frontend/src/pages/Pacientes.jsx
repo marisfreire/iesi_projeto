@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 //PACIENTES DO DOCENTE (APARECE TODOS)
 
@@ -9,6 +9,7 @@ export default function Pacientes() {
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const token = localStorage.getItem("access_token");
 
@@ -34,7 +35,18 @@ useEffect(() => {
       }
 
       const json = await response.json();
-      setPacientes(json.data || []);
+      const base = json.data || [];
+
+      // Injeção de pacientes de teste (IDs 370 e 359) para validação do Prontuário
+      const augmented = [...base];
+      const exists = (list, id) => list.some((x) => String(x.id) === String(id));
+      const addIfMissing = (obj) => {
+        if (!exists(augmented, obj.id)) augmented.push(obj);
+      };
+      addIfMissing({ id: 370, name: "Paciente Teste 370", healthInsurance: { name: "N/A" }, status: { status: "Ativo" } });
+      addIfMissing({ id: 359, name: "Paciente Teste 359", healthInsurance: { name: "N/A" }, status: { status: "Ativo" } });
+
+      setPacientes(augmented);
 
       console.log("Dados do paciente:", json);
 
@@ -52,6 +64,11 @@ useEffect(() => {
   function abrirDetalhes(paciente) {
   navigate(`/infopaciente/${paciente.id}`);
 }
+
+  function abrirProntuario(paciente) {
+    const search = location.search || "";
+    navigate(`/prontuario/${paciente.id}${search}`);
+  }
 
   if (loading) {
     return <div>Carregando pacientes...</div>;
@@ -123,6 +140,25 @@ useEffect(() => {
           </div>
           <div style={{ marginTop: 2, color: "#4f6367", fontSize: 16 }}>
             Status: {p.status?.status || "N/A"}
+          </div>
+          <div style={{ marginTop: 10 }}>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                abrirProntuario(p);
+              }}
+              style={{
+                backgroundColor: "#00b2a9",
+                color: "white",
+                border: "none",
+                padding: "8px 12px",
+                borderRadius: 6,
+                cursor: "pointer",
+              }}
+            >
+              Abrir Prontuário
+            </button>
           </div>
         </div>
       ))}
