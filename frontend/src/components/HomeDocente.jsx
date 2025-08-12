@@ -9,6 +9,14 @@ export default function HomeDocente() {
     navigate("/acompanhamento-docente");
   };
 
+  const handleAgendamentoClick = () => {
+    navigate("/agendamento");
+  };
+
+  {/*const handleCalendarioClick = () => {
+    navigate("/calendario");
+  };*/}
+
   return (
     <div className="home-page-container">
       <div className="header-background">
@@ -27,13 +35,16 @@ export default function HomeDocente() {
           <h3 className="card-title">Calendário</h3>
           <p className="card-description">Gerencie todos os agendamentos em um calendário.</p>
         </div>
-        <div className="card">
-          <div className="card-icon">
+        <button 
+          className="card card-button" 
+          onClick={handleAgendamentoClick}
+        >
+           <div className="card-icon">
             <img src="/icons/schedule.png" alt="Ícone de Agendamento" />
           </div>
           <h3 className="card-title">Agendamento</h3>
           <p className="card-description">Crie novos agendamentos e consultas.</p>
-        </div>
+        </button>
         <div className="card">
           <div className="card-icon">
             <img src="/icons/patients.png" alt="Ícone de Pacientes" />
