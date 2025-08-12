@@ -62,25 +62,66 @@ useEffect(() => {
   }
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Pacientes Encontrados</h2>
-      {pacientes.length === 0 && <div>Nenhum paciente encontrado.</div>}
+    <div
+      style={{
+        padding: 20,
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        backgroundColor: "#f8fafc",
+        minHeight: "100vh",
+      }}
+    >
+      <h2
+        style={{
+          color: "#2c3e50",
+          borderBottom: "4px solid #7cb1ad",
+          paddingBottom: 8,
+          marginBottom: 20,
+          fontWeight: "bold",
+          fontSize: 28,
+        }}
+      >
+        Pacientes Encontrados
+      </h2>
+
+      {pacientes.length === 0 && (
+        <div
+          style={{
+            fontSize: 18,
+            color: "#777",
+            marginTop: 20,
+          }}
+        >
+          Nenhum paciente encontrado.
+        </div>
+      )}
+
       {pacientes.map((p) => (
         <div
           key={p.id}
-          style={{
-            border: "1px solid #ccc",
-            marginBottom: 10,
-            padding: 10,
-            cursor: "pointer",
-          }}
           onClick={() => abrirDetalhes(p)}
+          style={{
+            backgroundColor: "#ffffff",
+            borderRadius: 12,
+            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+            padding: 16,
+            marginBottom: 16,
+            cursor: "pointer",
+            transition: "background-color 0.2s ease",
+          }}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.backgroundColor = "#e0f2f1")
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.backgroundColor = "#ffffff")
+          }
         >
-          <strong>#{p.id} - {p.name}</strong>
-          <div>
+          <strong style={{ fontSize: 20, color: "#34495e" }}>
+            #{p.id} - {p.name}
+          </strong>
+          <div style={{ marginTop: 6, color: "#4f6367", fontSize: 16 }}>
             Convênio: {p.healthInsurance?.name || "N/A"}
           </div>
-          <div>
+          <div style={{ marginTop: 2, color: "#4f6367", fontSize: 16 }}>
             Status: {p.status?.status || "N/A"}
           </div>
         </div>
