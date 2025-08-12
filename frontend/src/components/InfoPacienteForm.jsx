@@ -1,18 +1,60 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-export default function DetalhesPaciente() {
-  const location = useLocation();
+export default function InfoPacienteForm() {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const paciente = location.state?.paciente;
+  const token = localStorage.getItem("access_token");
 
+  const [paciente, setPaciente] = useState(null);
   const [abaAtiva, setAbaAtiva] = useState("linha");
   const [relatorio, setRelatorio] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [erro, setErro] = useState(null);
+
+  const consultasMock = [
+    { id: 1, data: "2025-08-01", descricao: "Consulta de rotina" },
+    { id: 2, data: "2025-07-10", descricao: "Retorno de exame" }
+  ];
+  const examesMock = [
+    { id: 1, tipo: "Hemograma", resultado: "Normal" },
+    { id: 2, tipo: "Raio-X", resultado: "Sem alterações" }
+  ];
+
+  useEffect(() => {
+    async function fetchDetalhes() {
+      try {
+        setLoading(true);
+        setErro(null);
+
+        const resp = await fetch(`https://api.tisaude.com/api/patients/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (!resp.ok) {
+          if (resp.status === 401) {
+            throw new Error("Não autorizado. Faça login novamente.");
+          }
+          throw new Error(`Erro ao buscar paciente: ${resp.statusText}`);
+        }
+
+        const data = await resp.json();
+        setPaciente(data);
+      } catch (err) {
+        setErro(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchDetalhes();
+  }, [id, token]);
+
 
   if (!paciente) {
     return (
       <div style={{ padding: 20 }}>
-        <p>Nenhum paciente selecionado.</p>
+        <p>Nenhum paciente encontrado.</p>
         <button onClick={() => navigate("/")}>Voltar à lista</button>
       </div>
     );
@@ -20,7 +62,7 @@ export default function DetalhesPaciente() {
 
   return (
     <div style={{ display: "flex", fontFamily: "Arial, sans-serif", height: "100vh" }}>
-      {/* Lado esquerdo - foto + dados */}
+      {/* Lado esquerdo - informações */}
       <div style={{ width: 300, padding: 20, borderRight: "1px solid #ccc" }}>
         <div
           style={{
@@ -39,19 +81,31 @@ export default function DetalhesPaciente() {
         >
           📷
         </div>
-        <div style={{ fontWeight: "bold", fontSize: 18, marginBottom: 10 }}>{paciente.nome}</div>
-        <div>
-          <strong>CPF:</strong> {paciente.cpf}
+        <div style={{ fontWeight: "bold", fontSize: 18, marginBottom: 10 }}>
+          {paciente.name || "Sem nome"}
         </div>
         <div>
-          <strong>Convênio:</strong> {paciente.convenio}
+          <strong>CPF:</strong> {paciente.cpf || "Não informado"}
+        </div>
+        <div>
+          <strong>Convênio:</strong> {paciente.healthInsurance?.name || "N/A"}
+        </div>
+        <div>
+          <strong>Status:</strong> {paciente.status?.status || "N/A"}
         </div>
       </div>
 
       {/* Lado direito - abas */}
       <div style={{ flex: 1, padding: 20 }}>
         {/* Botões das abas */}
-        <div style={{ marginBottom: 20, borderBottom: "1px solid #ccc", display: "flex", gap: 15 }}>
+        <div
+          style={{
+            marginBottom: 20,
+            borderBottom: "1px solid #ccc",
+            display: "flex",
+            gap: 15,
+          }}
+        >
           <button
             onClick={() => setAbaAtiva("linha")}
             style={{
@@ -97,11 +151,11 @@ export default function DetalhesPaciente() {
         {abaAtiva === "linha" && (
           <div>
             <h2>Histórico de Consultas</h2>
-            {paciente.consultas.length === 0 ? (
+            {consultasMock.length === 0 ? (
               <p>Nenhuma consulta encontrada.</p>
             ) : (
               <ul>
-                {paciente.consultas.map((consulta) => (
+                {consultasMock.map((consulta) => (
                   <li key={consulta.id}>
                     <strong>{consulta.data}:</strong> {consulta.descricao}
                   </li>
@@ -114,11 +168,11 @@ export default function DetalhesPaciente() {
         {abaAtiva === "exames" && (
           <div>
             <h2>Resultados de Exames</h2>
-            {paciente.exames.length === 0 ? (
+            {examesMock.length === 0 ? (
               <p>Nenhum exame encontrado.</p>
             ) : (
               <ul>
-                {paciente.exames.map((exame) => (
+                {examesMock.map((exame) => (
                   <li key={exame.id}>
                     <strong>{exame.tipo}:</strong> {exame.resultado}
                   </li>
@@ -134,7 +188,13 @@ export default function DetalhesPaciente() {
             <textarea
               placeholder="Digite o relatório aqui..."
               rows={8}
-              style={{ width: "100%", padding: 10, fontSize: 16, borderRadius: 5, border: "1px solid #ccc" }}
+              style={{
+                width: "100%",
+                padding: 10,
+                fontSize: 16,
+                borderRadius: 5,
+                border: "1px solid #ccc",
+              }}
               value={relatorio}
               onChange={(e) => setRelatorio(e.target.value)}
             />

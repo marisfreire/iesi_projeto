@@ -1,69 +1,64 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-//PACIENTES DO DOCENTE (APARECE TODOS)
-
-export default function Pacientes() {
+export default function PacientesDiscente() {
   const [pacientes, setPacientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
-
   const token = localStorage.getItem("access_token");
 
-useEffect(() => {
-  async function fetchPacientes() {
-    try {
-      setLoading(true);
-      setError(null);
+  useEffect(() => {
+    async function fetchPacientes() {
+      try {
+        setLoading(true);
+        setError(null);
 
-      const response = await fetch(
+        const response = await fetch(
         "https://api.tisaude.com/api/patients?search=&healthinsurance=&professional=&cellphone=&sex=&email=&mother=&father=&neighborhood=&city=&state=&maritalStatus=&status=",
         {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         }
       );
 
-      if (!response.ok) {
-        if (response.status === 401) {
-          setError("Não autorizado. Faça login novamente.");
-          return;
+        if (!response.ok) {
+          if (response.status === 401) {
+            throw new Error("Não autorizado. Faça login novamente.");
+          }
+          throw new Error(`Erro ao buscar pacientes: ${response.statusText}`);
         }
-        throw new Error(`Erro ao buscar pacientes: ${response.statusText}`);
+
+        const json = await response.json();
+
+        //AQUI APLICA O FILTRO DOS PACIENTES DESIGNADOS PARA AQUELE ALUNO
+        const filtrados = (json.data || []).filter(
+          (p) =>
+            p.name === "RENAN SANTANA" ||
+            p.name === "RENAN LUIS JOAB BYANCA DOS SANTOS"
+        );
+
+        setPacientes(filtrados);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
-
-      const json = await response.json();
-      setPacientes(json.data || []);
-
-      console.log("Dados do paciente:", json);
-
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
     }
-  }
 
-  fetchPacientes();
-}, [token]);
-
+    fetchPacientes();
+  }, [token]);
 
   function abrirDetalhes(paciente) {
   navigate(`/infopaciente/${paciente.id}`);
 }
 
-  if (loading) {
-    return <div>Carregando pacientes...</div>;
-  }
-
-  if (error) {
-    return <div>Erro: {error}</div>;
-  }
+  if (loading) return <div>Carregando pacientes...</div>;
+  if (error) return <div>Erro: {error}</div>;
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>Pacientes Encontrados</h2>
+      <h2>Pacientes Filtrados</h2>
       {pacientes.length === 0 && <div>Nenhum paciente encontrado.</div>}
       {pacientes.map((p) => (
         <div
@@ -77,12 +72,8 @@ useEffect(() => {
           onClick={() => abrirDetalhes(p)}
         >
           <strong>#{p.id} - {p.name}</strong>
-          <div>
-            Convênio: {p.healthInsurance?.name || "N/A"}
-          </div>
-          <div>
-            Status: {p.status?.status || "N/A"}
-          </div>
+          <div>Convênio: {p.healthInsurance?.name || "N/A"}</div>
+          <div>Status: {p.status?.status || "N/A"}</div>
         </div>
       ))}
     </div>

@@ -10,11 +10,11 @@ function HomeDiscente() {
   navigate('/acompanhamento-estudante');
   };
 
-  const handlePacientesClick = () => {
-  // Envia para a lista de pacientes do discente
+const handlePacientesClick = () => {
   const username = localStorage.getItem('username');
-  navigate(`/pacientes?role=discente&user=${encodeURIComponent(username)}`);
-  };
+  navigate(`/pacientesDiscente?role=discente&user=${encodeURIComponent(username)}`);
+};
+
 
   return (
     <div className="home-discente-container">
