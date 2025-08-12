@@ -19,8 +19,31 @@ export default function Agendamento() {
     procedimento: "consulta"
   });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const [pacientesSugestoes, setPacientesSugestoes] = useState([]);
+  const [showSugestoes, setShowSugestoes] = useState(false);
+
+  const handleChange = async (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    
+    if(name === "nome" && value.length > 1) {
+      try {
+        const response = await fetch(`http://localhost:5000/pacientes?search=${value}`);
+        const json = await response.json();
+        console.log("Resposta pacientes:", json);
+        setPacientesSugestoes(Array.isArray(json) ? json : json.patients || []);
+        setShowSugestoes(true);
+      } catch (err) {
+        console.error("Erro ao buscar pacientes:", err);
+      }
+    } else {
+      setShowSugestoes(false);
+    }
+  };
+
+  const selecionarPaciente = (paciente) => {
+    setFormData({ ...formData, nome: paciente.name });
+    setShowSugestoes(false);
   };
 
   const handleSubmit = async () => {
@@ -68,7 +91,18 @@ export default function Agendamento() {
 
       <div className="section">
         <h3>PACIENTE</h3>
-        <input type="text" name="nome" placeholder="Nome *" value={formData.nome} onChange={handleChange}className="nome-input" />
+        <div>
+          <input type="text" name="nome" placeholder="Nome *" value={formData.nome} onChange={handleChange}className="nome-input" />
+          {showSugestoes && pacientesSugestoes.length > 0 && (
+            <ul className="sugestoes-lista">
+              {pacientesSugestoes.map((p) => (
+                <li key={p.id} onClick={() => selecionarPaciente(p)}>
+                  {p.name} <span style={{ color: "gray" }}>#{p.id}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
         <div className="row">
           <select name="nacionalidade" value={formData.nacionalidade} onChange={handleChange}>
             <option value="Brasil">Brasil</option>
