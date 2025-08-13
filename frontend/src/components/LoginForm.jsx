@@ -73,7 +73,15 @@ const handleLogin = async () => {
         </label>
       </div>
 
-      <div className="forgot-password">Esqueceu sua senha?</div>
+      <div className="forgot-password">
+        <a
+          href="https://clinic.tisaude.com/#/esqueciSenha"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Esqueceu sua senha?
+        </a>
+      </div>
 
       <button className="login-button" onClick={handleLogin}>
         LOGIN
