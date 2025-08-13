@@ -24,8 +24,8 @@ export default function Agendamento() {
     nacionalidade: "Brasil",
     cpf: "",
     convenio: "PARTICULAR",
-    dataNascimento: "",
-    celular: "",
+    dateOfBirth: "",
+    cellphone: "",
     email: "",
     encaminhadoPor: "",
     cartaoSaude: "",
@@ -44,7 +44,7 @@ export default function Agendamento() {
   const handleChange = async (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    
+
     if(name === "nome" && value.length > 1) {
       try {
         const response = await fetch(`http://localhost:5000/pacientes?search=${value}`);
@@ -61,21 +61,34 @@ export default function Agendamento() {
   };
 
   const selecionarPaciente = (paciente) => {
-    setFormData({ ...formData, nome: paciente.name, idPatient: paciente.id });
+    setFormData({ ...formData, 
+      nome: paciente.name, 
+      idPatient: paciente.id, 
+      cpf: paciente.cpf, 
+      cellphone: paciente.cellphone, 
+      dateOfBirth: paciente.dateOfBirth, 
+      email: paciente.email 
+    });
     setShowSugestoes(false);
   };
 
   const montarPayload = () => {
     const proceduresIds = formData.procedimentos.map((proc) => procedimentoMap[proc] || 1);
-  
+    let dateVal = null;
+    if (formData.dateOfBirth) {
+      const [year, month, day] = formData.dateOfBirth.split("-");
+      if (year && month && day) {
+        dateVal = `${day}/${month}/${year}`;
+      }
+    }
     return {
       idPatient: formData.idPatient || null,
       name: formData.nome,
       nacionalidade: formData.nacionalidade,
-      cpf: formData.cpf,
+      cpf: formData.cpf.replace(/\D/g, ""),
       convenio: formData.convenio,
-      dataNascimento: formData.dataNascimento,
-      celular: formData.celular,
+      dateOfBirth: dateVal,
+      cellphone: formData.cellphone,
       email: formData.email,
       encaminhadoPor: formData.encaminhadoPor,
       cartaoSaude: formData.cartaoSaude,
@@ -113,8 +126,8 @@ export default function Agendamento() {
           nacionalidade: "Brasil",
           cpf: "",
           convenio: "PARTICULAR",
-          dataNascimento: "",
-          celular: "",
+          dateOfBirth: "",
+          cellphone: "",
           email: "",
           encaminhadoPor: "",
           cartaoSaude: "",
@@ -161,11 +174,11 @@ export default function Agendamento() {
             <option value="SUS">SUS</option>
             <option value="AMIL">AMIL</option>
           </select>
-          <input type="date" name="dataNascimento" value={formData.dataNascimento} onChange={handleChange} />
+          <input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} />
         </div>
 
         <div className="row">
-          <input type="tel" name="celular" placeholder="Celular" value={formData.celular} onChange={handleChange} />
+          <input type="tel" name="cellphone" placeholder="Celular" value={formData.cellphone} onChange={handleChange} />
           <input type="email" name="email" placeholder="E-mail" value={formData.email} onChange={handleChange} />
           <input type="text" name="encaminhadoPor" placeholder="Encaminhado(a) por" value={formData.encaminhadoPor} onChange={handleChange} />
           <input type="text" name="cartaoSaude" placeholder="Carteira Nacional de Saúde" value={formData.cartaoSaude} onChange={handleChange} />

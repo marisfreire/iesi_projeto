@@ -10,16 +10,28 @@ def agendamento():
         data = request.get_json()
         idPatient = data.get("idPatient")
         name = data.get("name")
+        cpf = data.get("cpf")
+        dateOfBirth = data.get("dateOfBirth")
+        cellphone = data.get("cellphone")
+        email = data.get("email")
         schedule = data.get("schedule")
+
 
         if not name:
             return jsonify({"error": "Campo obrigatório ausente: name"}), 400
         if not schedule or not isinstance(schedule, list) or len(schedule) == 0:
             return jsonify({"error": "Campo obrigatório ausente ou inválido: schedule"}), 400        
 
-        result = agendamento_service(idPatient=idPatient, name=name, schedule=schedule)
+        result = agendamento_service(
+            idPatient=idPatient, 
+            name=name, 
+            cpf=cpf, 
+            dateOfBirth=dateOfBirth, 
+            cellphone=cellphone, 
+            email = email, 
+            schedule=schedule
+            )
 
-        print("Resultado: ", result)
         return jsonify(result), 200
     except Exception as e:
         print("Erro: ", str(e))

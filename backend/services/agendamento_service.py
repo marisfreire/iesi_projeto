@@ -3,12 +3,20 @@ import requests
 def agendamento_service(
     idPatient,
     name,
+    cpf,
+    dateOfBirth,
+    cellphone,
+    email,
     schedule
 ):
     try:
         payload = {
             "idPatient": idPatient,
             "name": name,
+            "cpf": cpf,
+            "dateOfBirth": dateOfBirth,
+            "cellphone": cellphone,
+            "email": email,
             "schedule": schedule
         }
 
