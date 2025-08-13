@@ -4,6 +4,7 @@ import "./HomeDocente.css";
 
 export default function HomeDocente() {
   const navigate = useNavigate();
+  const displayName = (typeof window !== 'undefined' && (localStorage.getItem('displayName') || localStorage.getItem('username'))) || 'Docente';
 
   const handleAcompanhamentoClick = () => {
     navigate("/acompanhamento-docente");
@@ -22,57 +23,57 @@ export default function HomeDocente() {
   };
 
   return (
-    <div className="home-page-container">
-      <div className="header-background">
-        <h1 className="header-title">
-          Sistema de Gestão <br /> Clínica-Escola de Odontologia
-        </h1>
-        <p className="header-subtitle">
-          Gerencie pacientes, agendamentos e acompanhamento de estudantes.
-        </p>
+    <div className="home-docente-container">
+      {/* Banner de boas-vindas */}
+      <div className="welcome-card-docente">
+        <div className="welcome-texts-docente">
+          <p className="welcome-title-docente">
+            Seja bem-vindo(a), <strong>{displayName}</strong>!
+          </p>
+          <p className="welcome-description-docente">
+            Você está na <span className="accent-docente">Clínica-Escola de Odontologia</span>. Tenha um ótimo dia de trabalho!
+          </p>
+        </div>
       </div>
-      <div className="card-container">
-        <button 
-          className="card card-button" 
-          onClick={handleCalendarioClick}
-        >
-           <div className="card-icon">
-            <img src="/icons/calendar.png" alt="Ícone de Calendário" />
-          </div>
-          <h3 className="card-title">Calendário</h3>
-          <p className="card-description">Gerencie todos os agendamentos em um calendário.</p>
-        </button>
-        <button 
-          className="card card-button" 
-          onClick={handleAgendamentoClick}
-        >
-           <div className="card-icon">
-            <img src="/icons/schedule.png" alt="Ícone de Agendamento" />
-          </div>
-          <h3 className="card-title">Agendamento</h3>
-          <p className="card-description">Crie novos agendamentos e consultas.</p>
-        </button>
-        <button 
-          className="card card-button" 
-          onClick={handlePacientesClick}
-        >
-           <div className="card-icon">
-            <img src="/icons/patients.png" alt="Ícone de Pacientes" />
-          </div>
-          <h3 className="card-title">Pacientes</h3>
-          <p className="card-description">Acesse informações e histórico de todos os seus pacientes.</p>
-        </button>
-        {/* Card de Acompanhamento como botão clicável */}
-        <button 
-          className="card card-button" 
-          onClick={handleAcompanhamentoClick}
-        >
-          <div className="card-icon">
-            <img src="/icons/student.png" alt="Ícone de Acompanhamento" />
-          </div>
-          <h3 className="card-title">Acompanhamento</h3>
-          <p className="card-description">Monitore o progresso e desenvolvimento dos estudantes na clínica.</p>
-        </button>
+
+      {/* NOVO: Container principal dos cards com fundo branco */}
+      <div className="main-card-container">
+        <p className="home-docente-subtitle">Gerencie pacientes, agendamentos e acompanhamento de estudantes.</p>
+
+        <div className="home-docente-buttons">
+          {/* Cartões de Ação para Docente */}
+          <button className="docente-button" onClick={handleCalendarioClick}>
+            <span className="action-icon-docente" aria-hidden="true" />
+            <div className="action-texts-docente">
+              <span className="text-module-docente">Calendário</span>
+              <span className="text-page-docente">Gerencie todos os agendamentos</span>
+            </div>
+          </button>
+
+          <button className="docente-button" onClick={handleAgendamentoClick}>
+            <span className="action-icon-docente" aria-hidden="true" />
+            <div className="action-texts-docente">
+              <span className="text-module-docente">Agendamento</span>
+              <span className="text-page-docente">Crie novos agendamentos e consultas</span>
+            </div>
+          </button>
+
+          <button className="docente-button" onClick={handlePacientesClick}>
+            <span className="action-icon-docente" aria-hidden="true" />
+            <div className="action-texts-docente">
+              <span className="text-module-docente">Pacientes</span>
+              <span className="text-page-docente">Acesse informações de todos os pacientes</span>
+            </div>
+          </button>
+
+          <button className="docente-button" onClick={handleAcompanhamentoClick}>
+            <span className="action-icon-docente" aria-hidden="true" />
+            <div className="action-texts-docente">
+              <span className="text-module-docente">Acompanhamento</span>
+              <span className="text-page-docente">Monitore o progresso dos estudantes</span>
+            </div>
+          </button>
+        </div>
       </div>
     </div>
   );

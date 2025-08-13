@@ -1,5 +1,5 @@
 .rbc-event {
-  background-color: #a0c4ff !important;
+  background-color: #f6f8fb !important;
   border: none !important;
   color: black !important;
   font-weight: 500;
@@ -9,16 +9,16 @@
 }
 
 .rbc-event.rbc-selected {
-  background-color: #82aaff !important;
+  background-color: #12b0a1 !important;
 }
 
 .rbc-event:hover {
-  background-color: #82aaff !important;
+  background-color: #12b0a1 !important;
   cursor: pointer;
 }
 
 .rbc-today {
-  background-color: #fffbe6 !important;
+  background-color: #f6f8fb !important;
 }
 
 .rbc-time-slot, .rbc-day-bg {

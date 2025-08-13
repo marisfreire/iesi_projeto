@@ -60,7 +60,7 @@
 .home-discente-buttons {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: 20px;
 }
 
 @media (min-width: 640px) {
@@ -72,27 +72,23 @@
 /* Botões em estilo "card" */
 .discente-button {
   background: var(--card);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px 20px;
-  font-size: 16px;
-  font-weight: 600;
+  border: 1px solid rgba(23, 175, 149, 0.35); /* Borda na cor verde suave */
+  border-radius: 16px; /* Aumente o arredondamento da borda */
+  padding: 30px; /* Aumente o preenchimento interno */
   text-align: left;
   cursor: pointer;
   display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 4px 12px rgba(2, 8, 20, 0.05);
-  transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease,
-    color 0.2s ease, background 0.2s ease;
+  flex-direction: column; /* Altere a direção para coluna */
+  gap: 12px; /* Espaçamento entre os elementos do card */
+  box-shadow: 0 4px 8px rgba(2, 8, 20, 0.05); /* Sombra mais suave */
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 /* Ícone/pílula decorativa para remeter aos cards do print */
 .discente-button::before {
   content: "";
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   border-radius: 10px;
   background: linear-gradient(135deg, var(--primary), #1ec9b6);
   box-shadow: 0 4px 10px rgba(18, 176, 161, 0.25);
@@ -102,7 +98,6 @@
   transform: translateY(-2px);
   box-shadow: 0 10px 22px rgba(2, 8, 20, 0.12);
   border-color: rgba(18, 176, 161, 0.5);
-  color: var(--primary-dark);
 }
 
 .discente-button:active {
@@ -122,7 +117,8 @@
   align-items: center;
   background: rgba(23, 175, 149, 0.12); /* #dcefed aproximado */
   border-radius: 16px;
-  padding: 16px 20px;
+  padding: 30px 20px;
+  min-height: 120px;
   border: 1px solid rgba(23, 175, 149, 0.35);
 }
 
@@ -139,7 +135,7 @@
 
 .welcome-title {
   font-family: 'Roboto', 'Inter', 'Segoe UI', Arial, sans-serif;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: 400;
   line-height: 1.2;
   margin: 0 0 4px 0;
@@ -167,11 +163,15 @@
 }
 
 .action-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: rgba(23, 175, 149, 0.15);
-  display: inline-block;
+  width: 48px; /* Ajuste o tamanho do ícone */
+  height: 48px; /* Ajuste o tamanho do ícone */
+  border-radius: 12px; /* Ajuste o arredondamento do ícone */
+  background: #dcf2f1; /* Cor de fundo do ícone */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px; /* Adicione margem inferior para espaçar do texto */
+  transition: background-color 0.2s ease;
 }
 
 .action-texts {
@@ -180,13 +180,13 @@
 }
 
 .text-module {
-  font-size: 14px;
+  font-size: 16px;
   color: #1f2937;
   font-weight: 600;
 }
 
 .text-page {
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
 }
 
@@ -199,7 +199,7 @@
 }
 
 .action-card {
-  min-height: 86px;
+  min-height: 100px;
 }
 
 .action-texts .text-module {

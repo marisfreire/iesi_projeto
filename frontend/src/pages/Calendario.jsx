@@ -73,7 +73,7 @@ export default function Calendario() {
     if (diasComAgendamento.has(diaFormatado)) {
       return {
         style: {
-          backgroundColor: "#f8d7da"
+          backgroundColor: "#f6f8fb"
         }
       };
     }
@@ -92,7 +92,7 @@ export default function Calendario() {
         style={{
           marginBottom: "16px",
           padding: "10px 20px",
-          background: "#82aaff",
+          background: "#12b0a1",
           color: "#000000",
           borderRadius: "6px",
           cursor: "pointer"
@@ -110,13 +110,13 @@ export default function Calendario() {
             left: 0,
             width: '100%',
             height: '100%',
-            background: 'rgba(255,255,255,0.7)',
+            background: '#667085',
             zIndex: 10,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '1.2rem',
-            color: '#3973b7',
+            color: '#12b0a1',
             fontWeight: 'bold'
           }}>
             Atualizando dados...

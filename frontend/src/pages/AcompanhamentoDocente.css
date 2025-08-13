@@ -1,35 +1,46 @@
-/* AcompanhamentoDocente.css - Updated Color Scheme */
+:root {
+  --primary: #12b0a1;
+  --primary-dark: #0f9588;
+  --bg: #f6f8fb;
+  --card: #ffffff;
+  --text: #243242;
+  --muted: #667085;
+  --border: #e5e7eb;
+}
+
 .acompanhamento-container {
-    font-family: 'Arial', sans-serif;
-    max-width: 800px;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
-    background-color: #f0f8ff; /* Changed to match DetalhesAluno */
+    padding: 24px;
+    background-color: var(--bg);
     min-height: 100vh;
 }
 
 .header {
-    text-align: center;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #b2ebf2; /* Updated border color */
-    background: linear-gradient(to right, #e0f7fa, #b2ebf2); /* Added gradient */
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow */
+    text-align: left;
+    margin-bottom: 24px;
+    background: rgba(23, 175, 149, 0.12);
+    border: 1px solid rgba(23, 175, 149, 0.35);
+    border-radius: 16px;
+    padding: 40px 32px;
+    box-shadow: none;
 }
 
 .header h1 {
-    color: #00b2a9; /* Updated to match DetalhesAluno */
-    margin-bottom: 10px;
+    color: var(--text);
+    margin: 0 0 8px 0;
+    font-size: clamp(24px, 2.8vw, 36px);
+    font-weight: 700;
 }
 
 .header p {
-    color: #555; /* Darker gray for better readability */
-    font-size: 1.1em;
+    color: var(--muted);
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0;
 }
 
-/* Cards de alunos */
 .alunos-list {
     display: flex;
     flex-direction: column;
@@ -37,23 +48,26 @@
 }
 
 .aluno-card {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Increased shadow */
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 8px rgba(2, 8, 20, 0.05);
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .aluno-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced hover shadow */
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(2, 8, 20, 0.12);
+    border-color: var(--primary);
 }
 
 .aluno-card h2 {
-    color: #00b2a9; /* Updated to match DetalhesAluno */
-    margin-top: 0;
-    margin-bottom: 15px;
+    color: var(--primary);
+    margin: 0 0 12px 0;
+    font-weight: 600;
+    text-align: left; /* Adicionado para alinhar o nome do aluno à esquerda */
 }
 
 .aluno-info {
@@ -63,18 +77,17 @@
 }
 
 .info-label {
-    font-weight: bold;
-    color: #333; /* Darker color for better contrast */
+    font-weight: 600;
+    color: var(--text);
     display: inline-block;
-    min-width: 80px;
 }
 
-/* Status - Kept identical to DetalhesAluno */
 .status {
-    padding: 3px 8px;
+    padding: 4px 10px;
     border-radius: 12px;
     font-size: 0.9em;
-    margin-left: 5px;
+    font-weight: 600;
+    margin-left: auto;
 }
 
 .status.em-acompanhamento {
@@ -87,13 +100,12 @@
     color: #155724;
 }
 
-/* Responsividade */
 @media (max-width: 600px) {
     .aluno-info {
         grid-template-columns: 1fr;
     }
-    
+
     .header {
-        padding: 20px;
+        padding: 24px;
     }
 }

@@ -26,7 +26,7 @@ const handlePacientesClick = () => {
             Seja bem-vindo(a), <strong>{displayName}</strong>!
           </p>
           <p className="welcome-description">
-            Você está no <span className="accent">Centro de Ciências Médicas - CCM</span>. Tenha um ótimo dia de trabalho!
+            Você está na <span className="accent">Clínica de Radiologia Odontológica</span>. Tenha um ótimo dia de estudo!
           </p>
         </div>
       </div>
@@ -40,7 +40,7 @@ const handlePacientesClick = () => {
             <span className="action-icon" aria-hidden="true" />
             <div className="action-texts">
               <span className="text-module">Acompanhamento</span>
-              <span className="text-page">Estudante</span>
+              <span className="text-page">Monitore o seu progresso</span>
             </div>
           </button>
 
@@ -48,7 +48,7 @@ const handlePacientesClick = () => {
             <span className="action-icon" aria-hidden="true" />
             <div className="action-texts">
               <span className="text-module">Pacientes</span>
-              <span className="text-page">do Discente</span>
+              <span className="text-page">Acesse informações dos pacientes</span>
             </div>
           </button>
         </div>
