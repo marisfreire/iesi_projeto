@@ -1,11 +1,13 @@
 import requests
 
 def agendamento_service(
+    idPatient,
     name,
     schedule
 ):
     try:
         payload = {
+            "idPatient": idPatient,
             "name": name,
             "schedule": schedule
         }

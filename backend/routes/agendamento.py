@@ -8,7 +8,7 @@ agendamento_bp = Blueprint("agendamento", __name__)
 def agendamento():
     try:
         data = request.get_json()
-
+        idPatient = data.get("idPatient")
         name = data.get("name")
         schedule = data.get("schedule")
 
@@ -17,7 +17,7 @@ def agendamento():
         if not schedule or not isinstance(schedule, list) or len(schedule) == 0:
             return jsonify({"error": "Campo obrigatório ausente ou inválido: schedule"}), 400        
 
-        result = agendamento_service(name=name, schedule=schedule)
+        result = agendamento_service(idPatient=idPatient, name=name, schedule=schedule)
 
         print("Resultado: ", result)
         return jsonify(result), 200

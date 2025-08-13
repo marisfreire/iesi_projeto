@@ -35,6 +35,7 @@ export default function Agendamento() {
     horario: "",
     procedimentos: ["CONSULTA"],
     idCalendar: 236,
+    idPatient: null,
   });
 
   const [pacientesSugestoes, setPacientesSugestoes] = useState([]);
@@ -60,7 +61,7 @@ export default function Agendamento() {
   };
 
   const selecionarPaciente = (paciente) => {
-    setFormData({ ...formData, nome: paciente.name });
+    setFormData({ ...formData, nome: paciente.name, idPatient: paciente.id });
     setShowSugestoes(false);
   };
 
@@ -68,6 +69,7 @@ export default function Agendamento() {
     const proceduresIds = formData.procedimentos.map((proc) => procedimentoMap[proc] || 1);
   
     return {
+      idPatient: formData.idPatient || null,
       name: formData.nome,
       nacionalidade: formData.nacionalidade,
       cpf: formData.cpf,
