@@ -6,7 +6,7 @@ Este é um projeto desenvolvido na disciplina de Integração e Evolução de Si
 O objetivo do projeto é ser um sistema centralizado para facilitar e otimizar os principais processos da Clínica-Escola de Radiologia Odontológica da Universidade Federal de Pernambuco (UFPE).
 
 ## Diretórios
-
+```bash
 iesi_projeto/
 ├── backend/
 │   ├── routes/
@@ -31,14 +31,14 @@ iesi_projeto/
 ├── README.md
 ├── setup_and_run_windows.bat
 └── setup.sh
-
+``` 
 
 ## Rodando localmente
 
 Clone o projeto
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/marisfreire/iesi_projeto/
 ```
 
 Vá para o diretório do projeto
