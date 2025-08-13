@@ -56,26 +56,92 @@ export default function PacientesDiscente() {
   if (loading) return <div>Carregando pacientes...</div>;
   if (error) return <div>Erro: {error}</div>;
 
-  return (
-    <div style={{ padding: 20 }}>
-      <h2>Pacientes Filtrados</h2>
-      {pacientes.length === 0 && <div>Nenhum paciente encontrado.</div>}
-      {pacientes.map((p) => (
-        <div
-          key={p.id}
+return (
+  <div
+    style={{
+      padding: 30,
+      maxWidth: "100%",
+      margin: "0 auto",
+      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      backgroundColor: "#f5f9fa",
+      minHeight: "100vh",
+    }}
+  >
+    <h2
+      style={{
+        fontWeight: "700",
+        fontSize: "1.8rem",
+        color: "#2e3b4e",
+        borderBottom: "4px solid #86b4af",
+        paddingBottom: 10,
+        marginBottom: 24,
+        textAlign: "center",
+      }}
+    >
+      Pacientes Encontrados
+    </h2>
+
+    {pacientes.length === 0 && (
+      <div
+        style={{
+          color: "#7a7a7a",
+          fontSize: 16,
+          textAlign: "center",
+          padding: 20,
+        }}
+      >
+        Nenhum paciente encontrado.
+      </div>
+    )}
+
+    {pacientes.map((p) => (
+      <div
+        key={p.id}
+        onClick={() => abrirDetalhes(p)}
+        style={{
+          backgroundColor: "#fff",
+          borderRadius: 12,
+          padding: 20,
+          marginBottom: 18,
+          cursor: "pointer",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+          transition: "transform 0.15s ease-in-out",
+          border: "1.5px solid transparent",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = "scale(1.02)";
+          e.currentTarget.style.borderColor = "#86b4af";
+          e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.12)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = "scale(1)";
+          e.currentTarget.style.borderColor = "transparent";
+          e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.08)";
+        }}
+      >
+        <strong
           style={{
-            border: "1px solid #ccc",
-            marginBottom: 10,
-            padding: 10,
-            cursor: "pointer",
+            fontWeight: "700",
+            fontSize: 18,
+            color: "#2e3b4e",
+            textTransform: "uppercase",
           }}
-          onClick={() => abrirDetalhes(p)}
         >
-          <strong>#{p.id} - {p.name}</strong>
-          <div>Convênio: {p.healthInsurance?.name || "N/A"}</div>
-          <div>Status: {p.status?.status || "N/A"}</div>
+          #{p.id} - {p.name}
+        </strong>
+        <div style={{ color: "#5c6c70", marginTop: 8, fontSize: 15 }}>
+          Convênio:{" "}
+          <span style={{ fontWeight: "600", color: "#3c3c3c" }}>
+            {p.healthInsurance?.name || "N/A"}
+          </span>
         </div>
-      ))}
-    </div>
-  );
-}
+        <div style={{ color: "#5c6c70", marginTop: 6, fontSize: 15 }}>
+          Status:{" "}
+          <span style={{ fontWeight: "600", color: "#3c3c3c" }}>
+            {p.status?.status || "N/A"}
+          </span>
+        </div>
+      </div>
+    ))}
+  </div>
+)};

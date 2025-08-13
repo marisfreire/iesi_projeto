@@ -1,0 +1,160 @@
+/* Prontuario.css */
+.prontuario-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f0f8ff;
+  min-height: 100vh;
+}
+
+.prontuario-header {
+  background: linear-gradient(to right, #e0f7fa, #b2ebf2);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.prontuario-title {
+  margin: 0;
+  color: #006064;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: #00b2a9;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #00897b;
+}
+
+.prontuario-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* .patient-card: estilos adicionais podem ser aplicados conforme necessário */
+
+.muted {
+  color: #666;
+  font-style: italic;
+}
+
+/* .prontuario-main: container da coluna direita do prontuário */
+
+.content-area {
+  margin-bottom: 16px;
+}
+
+/* Dados Pessoais: alinhar a largura ao cabeçalho do acordeão */
+.prontuario-main > .content-area {
+  margin: 0 0 16px;
+}
+
+.prontuario-main > .content-area .card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px 16px;
+}
+
+/* Acordeão */
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* .acc-item: wrapper de cada seção do acordeão */
+
+.acc-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid #e0f2f1;
+  border-left: 4px solid #00b2a9;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.acc-header.open {
+  background: #f1fffd;
+}
+
+.acc-header:focus-visible {
+  outline: 3px solid rgba(0, 178, 169, 0.35);
+  outline-offset: 2px;
+}
+
+.acc-title {
+  font-weight: 600;
+  color: #00b2a9;
+}
+
+.acc-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.acc-count {
+  background: #00b2a9;
+  color: #fff;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.acc-toggle {
+  color: #00695c;
+  font-weight: 700;
+}
+
+.acc-content {
+  margin-top: 8px;
+}
+
+/* Fazer o conteúdo ocupar a mesma largura do cabeçalho */
+.accordion .acc-content .content-area {
+  margin: 0;
+}
+
+.accordion .acc-content .content-area .card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 980px) {
+  .prontuario-layout {
+    grid-template-columns: 1fr;
+  }
+}
