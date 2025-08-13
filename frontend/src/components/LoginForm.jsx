@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
+import api from "../services/api";
 
 export default function LoginForm() {
   const [userType, setUserType] = useState("discente");
@@ -10,21 +11,22 @@ export default function LoginForm() {
 
 const handleLogin = async () => {
   try {
-    const response = await fetch("http://localhost:5000/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, senha: password }),
-    });
-    const data = await response.json();
+    const { data } = await api.post("/login", { username, senha: password, userType });
 
-    if (response.ok) {
-      localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("displayName", data.user.name);
+    if (data) {
+      // Tenta extrair token de campos comuns
+      const token = data?.access_token || data?.token || data?.data?.token;
+      if (token) {
+        localStorage.setItem("access_token", token);
+      }
+      if (data?.user?.name) {
+        localStorage.setItem("displayName", data.user.name);
+      }
       // Navegar conforme userType
       if (userType === "discente") navigate("/discente");
       else if (userType === "docente") navigate("/docente");
     } else {
-      alert(data.error || "Erro no login");
+      alert("Erro no login");
     }
   } catch (err) {
     console.error("Erro na requisição:", err);

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import api from "../services/api";
 
 //PACIENTES DO DOCENTE (APARECE TODOS)
 
@@ -19,23 +20,28 @@ useEffect(() => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(
-        "https://api.tisaude.com/api/patients?search=&healthinsurance=&professional=&cellphone=&sex=&email=&mother=&father=&neighborhood=&city=&state=&maritalStatus=&status=",
+      const { data } = await api.get(
+        "/pacientes",
         {
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          params: {
+            search: "",
+            healthinsurance: "",
+            professional: "",
+            cellphone: "",
+            sex: "",
+            email: "",
+            mother: "",
+            father: "",
+            neighborhood: "",
+            city: "",
+            state: "",
+            maritalStatus: "",
+            status: "",
+          },
         }
       );
 
-      if (!response.ok) {
-        if (response.status === 401) {
-          setError("Não autorizado. Faça login novamente.");
-          return;
-        }
-        throw new Error(`Erro ao buscar pacientes: ${response.statusText}`);
-      }
-
-      const json = await response.json();
-      const base = json.data || [];
+      const base = data?.patients || [];
 
       // Injeção de pacientes de teste (IDs 370 e 359) para validação do Prontuário
       const augmented = [...base];
@@ -48,7 +54,7 @@ useEffect(() => {
 
       setPacientes(augmented);
 
-      console.log("Dados do paciente:", json);
+  console.log("Dados do paciente:", data);
 
     } catch (err) {
       setError(err.message);

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./AgendamentoForm.css";
+import api from "../services/api";
 
 const opcoesProcedimentos = [
   { label: "Consulta", value: "CONSULTA" },
@@ -47,10 +48,9 @@ export default function Agendamento() {
 
     if(name === "nome" && value.length > 1) {
       try {
-        const response = await fetch(`http://localhost:5000/pacientes?search=${value}`);
-        const json = await response.json();
-        console.log("Resposta pacientes:", json);
-        setPacientesSugestoes(Array.isArray(json) ? json : json.patients || []);
+        const { data } = await api.get("/get_data", { params: { resource: "pacientes", search: value } });
+        console.log("Resposta pacientes:", data);
+        setPacientesSugestoes(Array.isArray(data) ? data : data.patients || []);
         setShowSugestoes(true);
       } catch (err) {
         console.error("Erro ao buscar pacientes:", err);
@@ -108,18 +108,10 @@ export default function Agendamento() {
   const handleSubmit = async () => {
     try {
       const payload = montarPayload();
-      const response = await fetch("http://localhost:5000/agendamento", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await response.json();
+      const { data } = await api.post("/agendamento", payload);
       console.log("Resposta da API:", data);
 
-      if (response.ok) {
+      if (data) {
         alert("Agendamento realizado com sucesso!");
         setFormData({
           nome: "",
@@ -138,7 +130,7 @@ export default function Agendamento() {
           procedimentos: ["CONSULTA"],
         });
       } else {
-        alert(data.error || "Erro ao agendar");
+        alert("Erro ao agendar");
       }
     } catch (err) {
       console.error("Erro na requisição:", err);
