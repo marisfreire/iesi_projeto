@@ -5,6 +5,7 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "moment/locale/pt-br";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import api from "../services/api";
 
 export default function Calendario() {
   const navigate = useNavigate();
@@ -17,18 +18,30 @@ export default function Calendario() {
   const location = useLocation();
 
   useEffect(() => {
-    setLoading(true);
-    fetch("http://localhost:5000/calendario?data=2025-08-01&idCalendar=236")
-      .then((res) => res.json())
-      .then((dados)=> {
-        console.log("Dados recebidos do backend:", dados);
-        setConsultas(dados);
-        setLoading(false);
-      })
-      .catch((err) => {
+    async function loadCalendar() {
+      try {
+        setLoading(true);
+        // Data padrão: primeiro dia do mês atual
+        const now = new Date();
+        const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+        const yyyy = firstDay.getFullYear();
+        const mm = String(firstDay.getMonth() + 1).padStart(2, "0");
+        const dd = String(firstDay.getDate()).padStart(2, "0");
+        const dateParam = `${yyyy}-${mm}-${dd}`;
+
+        const { data } = await api.get("/calendario", {
+          params: { data: dateParam, idCalendar: 236 },
+        });
+        console.log("Dados recebidos do backend:", data);
+        setConsultas(data);
+      } catch (err) {
         console.error("Erro ao buscar agendamentos:", err);
+      } finally {
         setLoading(false);
-      });
+      }
+    }
+
+    loadCalendar();
   }, [location]);
 
   const eventos = Array.isArray(consultas)

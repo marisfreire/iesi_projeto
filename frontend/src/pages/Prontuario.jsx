@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import "./Prontuario.css";
+import api from "../services/api";
 
 export default function Prontuario() {
   const { id } = useParams();
@@ -34,20 +35,12 @@ export default function Prontuario() {
 
   useEffect(() => {
     let cancelled = false;
-    async function fetchPaciente() {
+  async function fetchPaciente() {
       try {
         setLoading(true);
         setError(null);
-        const token = localStorage.getItem("access_token");
-        const resp = await fetch(`https://api.tisaude.com/api/patients/${id}`,
-          { headers: token ? { Authorization: `Bearer ${token}` } : {} }
-        );
-        if (!resp.ok) {
-          if (resp.status === 401) throw new Error("Não autorizado. Faça login novamente.");
-          throw new Error(`Erro ao buscar paciente: ${resp.statusText}`);
-        }
-        const data = await resp.json();
-        if (!cancelled) setPaciente(data);
+    const { data } = await api.get("/get_data", { params: { resource: "paciente", id } });
+    if (!cancelled) setPaciente(data);
       } catch (e) {
         if (!cancelled) setError(e.message);
       } finally {
@@ -61,16 +54,11 @@ export default function Prontuario() {
   // Busca as abas e contadores
   useEffect(() => {
     let cancelled = false;
-    async function fetchTabs() {
+  async function fetchTabs() {
   try {
         setTabsError(null);
-        const token = localStorage.getItem("access_token");
-        const resp = await fetch(`https://api.tisaude.com/api/ehr/tabs?id=${id}&onlyTab=0`,
-          { headers: token ? { Authorization: `Bearer ${token}` } : {} }
-        );
-        if (!resp.ok) throw new Error(`Erro ao buscar abas: ${resp.statusText}`);
-        const arr = await resp.json();
-        if (!cancelled) setTabs(Array.isArray(arr) ? arr : []);
+    const { data } = await api.get("/get_data", { params: { resource: "ehr_tabs", id, onlyTab: 0 } });
+    if (!cancelled) setTabs(Array.isArray(data) ? data : []);
       } catch (e) {
         if (!cancelled) setTabsError(e.message);
   } finally {
@@ -137,13 +125,8 @@ export default function Prontuario() {
                   ...prev,
                   [sectionKey]: { ...(prev[sectionKey] || {}), loading: true, error: null },
                 }));
-                const token = localStorage.getItem("access_token");
-                const resp = await fetch(
-                  `https://api.tisaude.com/api/patients/${id}/ehr/list?tab=${sectionKey}`,
-                  { headers: token ? { Authorization: `Bearer ${token}` } : {} }
-                );
-                if (!resp.ok) throw new Error(`Erro ao buscar ${sectionKey}: ${resp.statusText}`);
-                const arr = await resp.json();
+                const { data } = await api.get("/get_data", { params: { resource: "ehr_list", id, tab: sectionKey } });
+                const arr = data;
                 setItemsByTab((prev) => ({
                   ...prev,
                   [sectionKey]: { loading: false, error: null, items: Array.isArray(arr) ? arr : [] },
@@ -169,14 +152,8 @@ export default function Prontuario() {
       if (existing && (existing.loading || existing.data)) return;
       try {
         setDetailsByKey((prev) => ({ ...prev, [key]: { loading: true, error: null, data: null } }));
-        const token = localStorage.getItem("access_token");
-        const resp = await fetch(
-          `https://api.tisaude.com/api/patients/${id}/ehr/documenhistory/${sectionKey}/${docId}?history=0`,
-          { headers: token ? { Authorization: `Bearer ${token}` } : {} }
-        );
-        if (!resp.ok) throw new Error(`Erro ao buscar detalhes: ${resp.statusText}`);
-        const json = await resp.json();
-        setDetailsByKey((prev) => ({ ...prev, [key]: { loading: false, error: null, data: json } }));
+  const { data } = await api.get("/get_data", { params: { resource: "ehr_doc", id, tab: sectionKey, docId, history: 0 } });
+  setDetailsByKey((prev) => ({ ...prev, [key]: { loading: false, error: null, data } }));
       } catch (e) {
         setDetailsByKey((prev) => ({ ...prev, [key]: { loading: false, error: e.message, data: null } }));
       }
