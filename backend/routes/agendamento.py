@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from services.agendamento_service import agendamento_service
+import traceback
 
 agendamento_bp = Blueprint("agendamento", __name__)
 
@@ -8,40 +9,22 @@ def agendamento():
     try:
         data = request.get_json()
 
-        nome = data["nome"]
-        nacionalidade = data["nacionalidade"]
-        cpf = data["cpf"]
-        convenio = data["convenio"]
-        dataNascimento = data["dataNascimento"]
-        celular = data["celular"]
-        email = data["email"]
-        encaminhadoPor = data["encaminhadoPor"]
-        cartaoSaude = data["cartaoSaude"]
-        data_agenda = data["data"]
-        local = data["local"]
-        agenda = data["agenda"]
-        horario = data["horario"]
-        procedimento = data["procedimento"]
+        name = data.get("name")
+        schedule = data.get("schedule")
 
-        result = agendamento_service(
-            nome,
-            nacionalidade,
-            cpf,
-            convenio,
-            dataNascimento,
-            celular,
-            email,
-            encaminhadoPor,
-            cartaoSaude,
-            data_agenda,
-            local,
-            agenda,
-            horario,
-            procedimento
-        )
+        if not name:
+            return jsonify({"error": "Campo obrigatório ausente: name"}), 400
+        if not schedule or not isinstance(schedule, list) or len(schedule) == 0:
+            return jsonify({"error": "Campo obrigatório ausente ou inválido: schedule"}), 400        
 
+        result = agendamento_service(name=name, schedule=schedule)
+
+        print("Resultado: ", result)
         return jsonify(result), 200
-
+    except Exception as e:
+        print("Erro: ", str(e))
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
     except KeyError as e:
         return jsonify({"error": f"Campo ausente: {e}"}), 400
     except Exception as e:
