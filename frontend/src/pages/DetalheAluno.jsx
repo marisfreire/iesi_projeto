@@ -7,13 +7,9 @@ function DetalhesAluno() {
   const navigate = useNavigate();
   const { state } = useLocation();
   
-  // Recebe apenas o aluno completo do estado de navegação
   const aluno = state?.aluno;
 
-  console.log('Dados recebidos:', { id, aluno });
-
   if (!aluno) {
-    console.log('Nenhum dado de aluno recebido via navegação');
     return (
       <div className="aluno-nao-encontrado">
         <h2>Aluno não encontrado</h2>
@@ -25,13 +21,6 @@ function DetalhesAluno() {
         </button>
       </div>
     );
-  }
-
-  // Verifica se há pacientes associados
-  const temPacientes = aluno.paciente && Object.keys(aluno.paciente).length > 0;
-  
-  if (!temPacientes) {
-    console.log(`Aluno ${aluno.nome} não possui pacientes associados`);
   }
 
   return (
@@ -51,30 +40,32 @@ function DetalhesAluno() {
       </header>
 
       <section className="pacientes-section">
-        <h2>Paciente em Acompanhamento</h2>
+        <h2>Pacientes em Acompanhamento</h2>
         
-        {temPacientes ? (
+        {aluno.pacientes?.length > 0 ? (
           <div className="pacientes-grid">
-            <div 
-              key={aluno.paciente.id} 
-              className="paciente-card"
-              onClick={() => navigate(`/infopaciente/${aluno.paciente.id}`, { 
-                state: { paciente: aluno.paciente } 
-              })}
-            >
-              <h3>{aluno.paciente.nome}</h3>
-              <button 
-                className="ver-prontuario-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(`/infopaciente/${aluno.paciente.id}`, {
-                    state: { paciente: aluno.paciente }
-                  });
-                }}
+            {aluno.pacientes.map(paciente => (
+              <div 
+                key={paciente.id} 
+                className="paciente-card"
+                onClick={() => navigate(`/prontuario/${paciente.id}`, { 
+                  state: { paciente } 
+                })}
               >
-                Ver Prontuário
-              </button>
-            </div>
+                <h3>{paciente.nome}</h3>
+                <button 
+                  className="ver-prontuario-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/prontuario/${paciente.id}`, {
+                      state: { paciente }
+                    });
+                  }}
+                >
+                  Ver Prontuário
+                </button>
+              </div>
+            ))}
           </div>
         ) : (
           <p className="sem-pacientes">Nenhum paciente em acompanhamento</p>

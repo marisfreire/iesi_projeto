@@ -22,9 +22,10 @@ export const mockAlunosBase = [
     }
 ];
 
-const alunoParaPacienteMap = {
-    'a001': 'RENAN SANTANA',
-    'a002': 'RENAN LUIS JOAB BYANCA DOS SANTOS'
+// Agora mapeia para arrays de pacientes
+const alunoParaPacientesMap = {
+    'a001': ['RENAN SANTANA', 'RENAN'], // João tem 2 pacientes
+    'a002': ['RENAN LUIS JOAB BYANCA DOS SANTOS'] // Ana tem 1 paciente
 };
 
 function AcompanhamentoDocente() {
@@ -35,26 +36,16 @@ function AcompanhamentoDocente() {
     const [token, setToken] = useState(localStorage.getItem('access_token') || localStorage.getItem('token'));
     const displayName = "LAVOISIER OLIVEIRA CÂNDIDO";
 
-    // Log inicial do token
-    console.log('Token inicial:', token);
-    console.log('LocalStorage completo:', localStorage);
-
     useEffect(() => {
-        console.log('useEffect iniciado - Token atual:', token);
-        
         async function fetchAndAssignPacientes() {
             try {
-                console.log('Iniciando fetchAndAssignPacientes');
                 setLoading(true);
                 setError(null);
 
-                // Verifica se o token existe
                 if (!token) {
-                    console.warn('Token não encontrado no localStorage');
                     throw new Error('Token de autenticação não encontrado. Faça login novamente.');
                 }
 
-                console.log('Preparando requisição com token:', token);
                 const response = await fetch(
                     "https://api.tisaude.com/api/patients",
                     {
@@ -65,11 +56,8 @@ function AcompanhamentoDocente() {
                     }
                 );
 
-                console.log('Resposta da API recebida. Status:', response.status);
-                
                 if (!response.ok) {
                     if (response.status === 401) {
-                        console.warn('Erro 401 - Token inválido ou expirado');
                         localStorage.removeItem('access_token');
                         localStorage.removeItem('token');
                         setToken(null);
@@ -79,65 +67,53 @@ function AcompanhamentoDocente() {
                 }
 
                 const data = await response.json();
-                console.log('Dados recebidos da API:', data);
                 const pacientesApi = data.data || [];
-                console.log('Pacientes da API:', pacientesApi);
 
                 const alunosAtualizados = mockAlunosBase.map(aluno => {
-                    const nomePacienteAluno = alunoParaPacienteMap[aluno.id];
-                    console.log(`Buscando paciente para ${aluno.nome}: ${nomePacienteAluno}`);
+                    const nomesPacientes = alunoParaPacientesMap[aluno.id] || [];
                     
-                    const paciente = pacientesApi.find(p => 
-                        p.name?.trim().toUpperCase() === nomePacienteAluno?.trim().toUpperCase()
-                    );
-
-                    console.log(`Paciente encontrado para ${aluno.nome}:`, paciente);
-                    
+                    // 1. Filtra os pacientes que estão no mapeamento
+                    const pacientesFiltrados = pacientesApi.filter(p => {
+                        const nomePaciente = p.name?.trim().toUpperCase();
+                        return nomesPacientes.includes(nomePaciente);
+                    });
+                
+                    // 2. Mapeia para o formato desejado
+                    const pacientes = pacientesFiltrados.map(p => ({
+                        id: p.id,
+                        nome: p.name
+                    }));
+                
                     return {
                         ...aluno,
-                        paciente: paciente ? { 
-                            id: paciente.id, 
-                            nome: paciente.name 
-                        } : null
+                        pacientes // Agora é um array
                     };
                 });
 
-                console.log('Alunos atualizados:', alunosAtualizados);
                 setAlunos(alunosAtualizados);
             } catch (err) {
-                console.error('Erro capturado:', err);
+                console.error('Erro:', err);
                 setError(err.message);
                 setAlunos(mockAlunosBase.map(aluno => ({
                     ...aluno,
-                    paciente: null
+                    pacientes: [] // Fallback com array vazio
                 })));
             } finally {
-                console.log('Finalizando fetchAndAssignPacientes');
                 setLoading(false);
             }
         }
 
         if (token) {
-            console.log('Token válido encontrado, iniciando requisição');
             fetchAndAssignPacientes();
         } else {
-            console.warn('Nenhum token encontrado, redirecionando para login');
             setError('Usuário não autenticado. Redirecionando para login...');
             setTimeout(() => navigate('/login'), 2000);
         }
     }, [token, navigate]);
 
-    if (loading) {
-        console.log('Renderizando estado de loading');
-        return <div className="loading">Carregando dados...</div>;
-    }
-    
-    if (error) {
-        console.log('Renderizando estado de erro:', error);
-        return <div className="error">Erro: {error}</div>;
-    }
+    if (loading) return <div className="loading">Carregando dados...</div>;
+    if (error) return <div className="error">Erro: {error}</div>;
 
-    console.log('Renderizando conteúdo principal com alunos:', alunos);
     return (
         <div className="acompanhamento-container">
             <header className="header">
@@ -162,8 +138,10 @@ function AcompanhamentoDocente() {
                                     {aluno.status}
                                 </span>
                             </p>
-                            <p><span className="info-label">Paciente:</span> 
-                                {aluno.paciente ? aluno.paciente.nome : 'Nenhum paciente associado'}
+                            <p><span className="info-label">Pacientes:</span> 
+                                {aluno.pacientes?.length > 0 
+                                    ? aluno.pacientes.map(p => p.nome).join(', ') 
+                                    : 'Nenhum paciente associado'}
                             </p>
                         </div>
                     </div>
