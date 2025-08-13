@@ -110,7 +110,7 @@ export default function Calendario() {
             left: 0,
             width: '100%',
             height: '100%',
-            background: '#667085',
+            background: 'transparent',
             zIndex: 10,
             display: 'flex',
             alignItems: 'center',
