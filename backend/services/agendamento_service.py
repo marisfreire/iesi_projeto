@@ -1,45 +1,33 @@
 import requests
 
 def agendamento_service(
-    nome,
-    nacionalidade,
-    cpf,
-    convenio,
-    dataNascimento,
-    celular,
-    email,
-    encaminhadoPor,
-    cartaoSaude,
-    data,
-    local,
-    agenda,
-    horario,
-    procedimento
+    name,
+    schedule
 ):
     try:
         payload = {
-            "nome": nome,
-            "nacionalidade": nacionalidade,
-            "cpf": cpf,
-            "convenio": convenio,
-            "dataNascimento": dataNascimento,
-            "celular": celular,
-            "email": email,
-            "encaminhadoPor": encaminhadoPor,
-            "cartaoSaude": cartaoSaude,
-            "data": data,
-            "local": local,
-            "agenda": agenda,
-            "horario": horario,
-            "procedimento": procedimento
+            "name": name,
+            "schedule": schedule
         }
 
+        token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS50aXNhdWRlLmNvbSIsImlhdCI6MTc1NTAxMjI0OCwiZXhwIjoxNzU3NjA0MjQ4LCJuYmYiOjE3NTUwMTIyNDgsImp0aSI6IkNNRTFXVHJOSFBOZWZHamgiLCJzdWIiOiI4Nzg4NSIsInBydiI6IjU4NzA4NjNkNGE2MmQ3OTE0NDNmYWY5MzZmYzM2ODAzMWQxMTBjNGYifQ.XT_qpWzgM-enSuBgdUOJ8WrhPk84YLtQ5B2UKcRGG1Y"
+        headers = {
+            "Authorization": f"Bearer {token}",
+        }
+
+        print("Payload enviado:", payload)
         response = requests.post(
             "https://api.tisaude.com/api/schedule/new",
-            json=payload
+            json=payload,
+            headers=headers
         )
         response.raise_for_status()
         return response.json()
 
-    except requests.exceptions.RequestException:
-        return {"error": "Não foi possível realizar o agendamento"}
+    except requests.exceptions.HTTPError as http_err:
+        print(f"HTTP error: {http_err}")
+        print(f"Response content: {response.text}")
+        raise
+    except requests.exceptions.RequestException as req_err:
+        print(f"Request exception: {req_err}")
+        raise

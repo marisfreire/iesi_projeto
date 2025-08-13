@@ -1,6 +1,23 @@
 import React, { useState } from "react";
 import "./AgendamentoForm.css";
 
+const opcoesProcedimentos = [
+  { label: "Consulta", value: "CONSULTA" },
+  { label: "Retorno", value: "RETORNO" },
+  { label: "Teleconsulta", value: "TELECONSULTA" },
+];
+
+const procedimentoMap = {
+  CONSULTA: 1,
+  RETORNO: 2,
+  TELECONSULTA: 3
+};
+
+const localMap = {
+  CONSULTORIO: 1,
+  OUTRO: 2,
+};
+
 export default function Agendamento() {
   const [formData, setFormData] = useState({
     nome: "",
@@ -16,21 +33,72 @@ export default function Agendamento() {
     local: "CONSULTORIO",
     agenda: "",
     horario: "",
-    procedimento: "consulta"
+    procedimentos: ["CONSULTA"],
+    idCalendar: 236,
   });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const [pacientesSugestoes, setPacientesSugestoes] = useState([]);
+  const [showSugestoes, setShowSugestoes] = useState(false);
+
+  const handleChange = async (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    
+    if(name === "nome" && value.length > 1) {
+      try {
+        const response = await fetch(`http://localhost:5000/pacientes?search=${value}`);
+        const json = await response.json();
+        console.log("Resposta pacientes:", json);
+        setPacientesSugestoes(Array.isArray(json) ? json : json.patients || []);
+        setShowSugestoes(true);
+      } catch (err) {
+        console.error("Erro ao buscar pacientes:", err);
+      }
+    } else {
+      setShowSugestoes(false);
+    }
   };
+
+  const selecionarPaciente = (paciente) => {
+    setFormData({ ...formData, nome: paciente.name });
+    setShowSugestoes(false);
+  };
+
+  const montarPayload = () => {
+    const proceduresIds = formData.procedimentos.map((proc) => procedimentoMap[proc] || 1);
+  
+    return {
+      name: formData.nome,
+      nacionalidade: formData.nacionalidade,
+      cpf: formData.cpf,
+      convenio: formData.convenio,
+      dataNascimento: formData.dataNascimento,
+      celular: formData.celular,
+      email: formData.email,
+      encaminhadoPor: formData.encaminhadoPor,
+      cartaoSaude: formData.cartaoSaude,
+      schedule: [
+        {
+          id: "",
+          dateSchudule: formData.data.split("-").reverse().join("/"), // yyyy-mm-dd => dd/mm/yyyy
+          local: localMap[formData.local] || 1,
+          idCalendar: 236,
+          procedures: proceduresIds,   // chave correta: 'procedures'
+          hour: formData.horario ? formData.horario + ":00" : "",
+        },
+      ],
+    };
+  };  
 
   const handleSubmit = async () => {
     try {
+      const payload = montarPayload();
       const response = await fetch("http://localhost:5000/agendamento", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
@@ -52,7 +120,7 @@ export default function Agendamento() {
           local: "CONSULTORIO",
           agenda: "",
           horario: "",
-          procedimento: "consulta"
+          procedimentos: ["CONSULTA"],
         });
       } else {
         alert(data.error || "Erro ao agendar");
@@ -68,7 +136,18 @@ export default function Agendamento() {
 
       <div className="section">
         <h3>PACIENTE</h3>
-        <input type="text" name="nome" placeholder="Nome *" value={formData.nome} onChange={handleChange}className="nome-input" />
+        <div>
+          <input type="text" name="nome" placeholder="Nome *" value={formData.nome} onChange={handleChange}className="nome-input" />
+          {showSugestoes && pacientesSugestoes.length > 0 && (
+            <ul className="sugestoes-lista">
+              {pacientesSugestoes.map((p) => (
+                <li key={p.id} onClick={() => selecionarPaciente(p)}>
+                  {p.name} <span style={{ color: "gray" }}>#{p.id}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
         <div className="row">
           <select name="nacionalidade" value={formData.nacionalidade} onChange={handleChange}>
             <option value="Brasil">Brasil</option>
@@ -107,8 +186,18 @@ export default function Agendamento() {
           <input type="time" name="horario" value={formData.horario} onChange={handleChange} />
         </div>
 
-        <select name="procedimento" value={formData.procedimento} onChange={handleChange}>
-          <option value="consulta">Exame de imagem</option>
+        <select name="procedimento" multiple value={formData.procedimentos} onChange={(e) => {
+          const selectedOptions = Array.from(e.target.selectedOptions).map(
+            (option) => option.value
+          );
+          setFormData((prev) => ({ ...prev, procedimentos: selectedOptions })); 
+          }}
+        >
+          {opcoesProcedimentos.map(({ label, value }) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
         </select>
       </div>
 

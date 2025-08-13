@@ -77,3 +77,26 @@ input:focus, select:focus {
 .submit-button:hover {
   background-color: #1259a7;
 }
+
+
+.sugestoes-lista {
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  background: white;
+  width: 300px;
+  z-index: 10;
+}
+
+.sugestoes-lista li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.sugestoes-lista li:hover {
+  background: #f0f0f0;
+}
