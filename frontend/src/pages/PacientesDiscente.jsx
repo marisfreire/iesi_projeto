@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function PacientesDiscente() {
   const [pacientes, setPacientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const navigate = useNavigate();
   const token = localStorage.getItem("access_token");
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     async function fetchPacientes() {
@@ -49,99 +50,106 @@ export default function PacientesDiscente() {
     fetchPacientes();
   }, [token]);
 
-  function abrirDetalhes(paciente) {
-  navigate(`/infopaciente/${paciente.id}`);
-}
+  // Navegação para InfoPaciente removida
 
   if (loading) return <div>Carregando pacientes...</div>;
   if (error) return <div>Erro: {error}</div>;
 
-return (
-  <div
-    style={{
-      padding: 30,
-      maxWidth: "100%",
-      margin: "0 auto",
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      backgroundColor: "#f5f9fa",
-      minHeight: "100vh",
-    }}
-  >
-    <h2
+  return (
+    <div
       style={{
-        fontWeight: "700",
-        fontSize: "1.8rem",
-        color: "#2e3b4e",
-        borderBottom: "4px solid #86b4af",
-        paddingBottom: 10,
-        marginBottom: 24,
-        textAlign: "center",
+        padding: 30,
+        maxWidth: "100%",
+        margin: "0 auto",
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        backgroundColor: "#f5f9fa",
+        minHeight: "100vh",
       }}
     >
-      Pacientes Encontrados
-    </h2>
-
-    {pacientes.length === 0 && (
-      <div
+      <h2
         style={{
-          color: "#7a7a7a",
-          fontSize: 16,
+          fontWeight: "700",
+          fontSize: "1.8rem",
+          color: "#2e3b4e",
+          borderBottom: "4px solid #86b4af",
+          paddingBottom: 10,
+          marginBottom: 24,
           textAlign: "center",
-          padding: 20,
         }}
       >
-        Nenhum paciente encontrado.
-      </div>
-    )}
+        Pacientes Encontrados
+      </h2>
 
-    {pacientes.map((p) => (
-      <div
-        key={p.id}
-        onClick={() => abrirDetalhes(p)}
-        style={{
-          backgroundColor: "#fff",
-          borderRadius: 12,
-          padding: 20,
-          marginBottom: 18,
-          cursor: "pointer",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-          transition: "transform 0.15s ease-in-out",
-          border: "1.5px solid transparent",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = "scale(1.02)";
-          e.currentTarget.style.borderColor = "#86b4af";
-          e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.12)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = "scale(1)";
-          e.currentTarget.style.borderColor = "transparent";
-          e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.08)";
-        }}
-      >
-        <strong
+      {pacientes.length === 0 && (
+        <div
           style={{
-            fontWeight: "700",
-            fontSize: 18,
-            color: "#2e3b4e",
-            textTransform: "uppercase",
+            color: "#7a7a7a",
+            fontSize: 16,
+            textAlign: "center",
+            padding: 20,
           }}
         >
-          #{p.id} - {p.name}
-        </strong>
-        <div style={{ color: "#5c6c70", marginTop: 8, fontSize: 15 }}>
-          Convênio:{" "}
-          <span style={{ fontWeight: "600", color: "#3c3c3c" }}>
-            {p.healthInsurance?.name || "N/A"}
-          </span>
+          Nenhum paciente encontrado.
         </div>
-        <div style={{ color: "#5c6c70", marginTop: 6, fontSize: 15 }}>
-          Status:{" "}
-          <span style={{ fontWeight: "600", color: "#3c3c3c" }}>
-            {p.status?.status || "N/A"}
-          </span>
+      )}
+
+      {pacientes.map((p) => (
+        <div
+          key={p.id}
+          style={{
+            backgroundColor: "#fff",
+            borderRadius: 12,
+            padding: 20,
+            marginBottom: 18,
+            cursor: "default",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+            border: "1px solid #e6ecec",
+          }}
+        >
+          <strong
+            style={{
+              fontWeight: "700",
+              fontSize: 18,
+              color: "#2e3b4e",
+              textTransform: "uppercase",
+            }}
+          >
+            #{p.id} - {p.name}
+          </strong>
+          <div style={{ color: "#5c6c70", marginTop: 8, fontSize: 15 }}>
+            Convênio:{" "}
+            <span style={{ fontWeight: "600", color: "#3c3c3c" }}>
+              {p.healthInsurance?.name || "N/A"}
+            </span>
+          </div>
+          <div style={{ color: "#5c6c70", marginTop: 6, fontSize: 15 }}>
+            Status:{" "}
+            <span style={{ fontWeight: "600", color: "#3c3c3c" }}>
+              {p.status?.status || "N/A"}
+            </span>
+          </div>
+
+          <div style={{ marginTop: 12 }}>
+            <button
+              type="button"
+              onClick={() => {
+                const search = location.search || "";
+                navigate(`/prontuario/${p.id}${search}`);
+              }}
+              style={{
+                backgroundColor: "#00b2a9",
+                color: "#fff",
+                border: "none",
+                padding: "8px 12px",
+                borderRadius: 6,
+                cursor: "pointer",
+              }}
+            >
+              Ver Prontuário
+            </button>
+          </div>
         </div>
-      </div>
-    ))}
-  </div>
-)};
+      ))}
+    </div>
+  );
+}
