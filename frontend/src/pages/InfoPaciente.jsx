@@ -1,5 +1,4 @@
-import InfoPacienteForm from "../components/InfoPacienteForm";
-
+// Arquivo removido: InfoPaciente foi descontinuado em favor de /prontuario/:id
 export default function InfoPaciente() {
-  return <InfoPacienteForm />;
+  return null;
 }

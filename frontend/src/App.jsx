@@ -10,7 +10,6 @@ import Prontuario from "./pages/Prontuario";
 import Agendamento from "./components/AgendamentoForm";
 import AcompanhamentoDocente from "./pages/AcompanhamentoDocente";
 import DetalhesAluno from "./pages/DetalheAluno";
-import InfoPaciente from "./pages/InfoPaciente";
 import PacientesDiscente from "./pages/PacientesDiscente";
 
 function App() {
@@ -26,7 +25,6 @@ function App() {
   <Route path="/aluno/:id" element={<DetalhesAluno />} />
   <Route path="/pacientes" element={<Pacientes />} />
   <Route path="/prontuarios" element={<Prontuarios />} />
-  <Route path="/infopaciente/:id" element={<InfoPaciente />} />
   <Route path="/pacientesdiscente" element={<PacientesDiscente />} />
   <Route path="/prontuario/:id" element={<Prontuario />} />
         {/* Fallback para rotas desconhecidas */}

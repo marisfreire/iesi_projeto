@@ -61,9 +61,7 @@ useEffect(() => {
 }, [token]);
 
 
-  function abrirDetalhes(paciente) {
-  navigate(`/infopaciente/${paciente.id}`);
-}
+  // Navegação para InfoPaciente removida
 
   function abrirProntuario(paciente) {
     const search = location.search || "";
@@ -115,22 +113,15 @@ useEffect(() => {
       {pacientes.map((p) => (
         <div
           key={p.id}
-          onClick={() => abrirDetalhes(p)}
           style={{
             backgroundColor: "#ffffff",
             borderRadius: 12,
             boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
             padding: 16,
             marginBottom: 16,
-            cursor: "pointer",
+            cursor: "default",
             transition: "background-color 0.2s ease",
           }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.backgroundColor = "#e0f2f1")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.backgroundColor = "#ffffff")
-          }
         >
           <strong style={{ fontSize: 20, color: "#34495e" }}>
             #{p.id} - {p.name}
